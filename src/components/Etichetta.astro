@@ -1,0 +1,20 @@
+---
+// L'etichetta inclinata che apre ogni sezione (OBIETTIVO, STRATEGIA, ...)
+const { testo, rotazione = -2 } = Astro.props;
+---
+
+<span class="etichetta" style={`--rot: ${rotazione}deg;`}>{testo}</span>
+
+<style>
+  .etichetta {
+    display: inline-block;
+    padding: 10px 14px;
+    background: var(--c-etichetta);
+    font-family: var(--f-accent);
+    font-size: var(--t-etichetta);
+    line-height: 1;
+    color: var(--c-terracotta);
+    text-transform: uppercase;
+    transform: rotate(var(--rot));
+  }
+</style>

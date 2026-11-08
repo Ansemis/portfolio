@@ -1,0 +1,158 @@
+---
+// La navbar che compare passando il mouse nella fascia alta della pagina.
+// Resta nascosta finché è visibile quella fissa dell'hero, per non sdoppiarla.
+---
+
+<div class="zona-richiamo" aria-hidden="true"></div>
+
+<div class="flottante" id="navbar-flottante">
+  <nav class="navbar">
+    <a href="/" class="flottante__mascotte" aria-label="Torna alla home">
+      <img src="/img/anselmo-hero.webp" alt="" width="500" height="500" />
+    </a>
+    <span class="separatore" aria-hidden="true"></span>
+    <a href="/#progetti">Progetti</a>
+    <span class="separatore" aria-hidden="true"></span>
+    <a href="/lavoriamo">Lavoriamo</a>
+    <span class="separatore" aria-hidden="true"></span>
+    <a href="/#chi-sono">Chi sono</a>
+  </nav>
+</div>
+
+<style>
+  /* Fascia invisibile in cima alla finestra: è qui che il mouse
+     fa comparire la navbar. Alta il 10% dell'altezza della finestra. */
+  .zona-richiamo {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 10vh;
+    z-index: 48;
+    pointer-events: none;   /* non intercetta i clic della pagina */
+  }
+
+  .flottante {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    z-index: 50;
+    transform: translate(-50%, -140%);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  /* visibile: la classe la mette lo script qui sotto */
+  .flottante.visibile {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 2px solid var(--c-nero);
+    border-radius: 8px;
+    box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.69);
+    background: var(--c-sfondo);
+  }
+
+  .navbar a {
+    font-family: var(--f-body);
+    font-size: var(--t-corpo);
+    color: var(--c-nero);
+    white-space: nowrap;
+  }
+
+  .navbar a:hover { text-decoration: underline; }
+
+  .flottante__mascotte {
+    display: block;
+    width: 34px;
+    flex-shrink: 0;
+  }
+
+  .flottante__mascotte img {
+    width: 100%;
+    height: auto;
+    transform: scaleX(-1);
+  }
+
+  .separatore {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-nero);
+    flex-shrink: 0;
+  }
+
+  /* Su schermi touch non esiste l'hover: la navbar compare
+     quando si scorre verso l'alto. Lo gestisce lo script. */
+
+  @media (max-width: 700px) {
+    .flottante { top: 10px; max-width: 94vw; }
+    .navbar { padding: 6px 10px; gap: 7px; }
+    .flottante__mascotte { width: 26px; }
+  }
+
+  /* Sotto i 430px la pillola non ci starebbe: tolgo la mascotte,
+     che qui e' decorazione, e stringo le spaziature. */
+  @media (max-width: 430px) {
+    .flottante__mascotte { display: none; }
+    .flottante__mascotte + .separatore { display: none; }
+    .navbar { padding: 6px 9px; gap: 6px; }
+    .navbar a { font-size: 14px; }
+    .separatore { width: 5px; height: 5px; }
+  }
+</style>
+
+<script>
+  const barra = document.getElementById('navbar-flottante');
+  const fissa = document.querySelector('.navbar-riga');   // quella dell'hero
+  if (barra) {
+    let fissaVisibile = false;
+    let dentroFascia = false;
+    let sopraBarra = false;
+
+    // 1. La navbar dell'hero è sotto gli occhi? Allora niente doppione.
+    if (fissa) {
+      new IntersectionObserver(
+        ([voce]) => { fissaVisibile = voce.isIntersecting; aggiorna(); },
+        { threshold: 0.1 }
+      ).observe(fissa);
+    }
+
+    function aggiorna() {
+      const mostra = !fissaVisibile && (dentroFascia || sopraBarra);
+      barra.classList.toggle('visibile', mostra);
+    }
+
+    // 2. Il mouse è nel 10% superiore della finestra?
+    document.addEventListener('mousemove', (e) => {
+      dentroFascia = e.clientY <= window.innerHeight * 0.10;
+      aggiorna();
+    });
+
+    // resta aperta mentre ci passi sopra, anche se esci dalla fascia
+    barra.addEventListener('mouseenter', () => { sopraBarra = true;  aggiorna(); });
+    barra.addEventListener('mouseleave', () => { sopraBarra = false; aggiorna(); });
+
+    // il mouse esce dalla finestra: richiudi
+    document.addEventListener('mouseleave', () => {
+      dentroFascia = false; aggiorna();
+    });
+
+    // 3. Touch: compare scorrendo verso l'alto
+    if (window.matchMedia('(hover: none)').matches) {
+      let ultimo = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const ora = window.scrollY;
+        dentroFascia = ora < ultimo && ora > 200;
+        ultimo = ora;
+        aggiorna();
+      }, { passive: true });
+    }
+  }
+</script>

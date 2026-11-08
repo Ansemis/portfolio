@@ -1,0 +1,161 @@
+---
+import { progetti } from '../data/progetti.js';
+---
+
+<section class="progetti" id="progetti">
+  <div class="contenitore">
+    <h2 class="titolo-sezione">progetti</h2>
+
+    <div class="progetti__elenco">
+      {progetti.map((p) => (
+        <article class="card">
+          <div class="card__cornice">
+            <img src={p.immagine} alt={p.alt} width="307" height="377" loading="lazy" />
+          </div>
+
+          <div class="card__testo">
+            <h3 class="card__titolo">{p.titolo}</h3>
+            <p class="card__descrizione">{p.descrizione}</p>
+            <a class="btn-primario" href={`/progetti/${p.slug}`}>scopri</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .progetti { padding-block: 80px; }
+
+  .titolo-sezione {
+    font-family: var(--f-shade);
+    font-size: var(--t-sezione);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--c-terracotta);
+    margin-bottom: 80px;
+  }
+
+  .progetti__elenco {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 100px;
+  }
+
+  .card {
+    display: flex;
+    gap: 64px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* In flex ogni figlio conserva la propria larghezza, quindi
+     row-reverse inverte l'ordine senza alterare le dimensioni. */
+  .card:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  /* La colonna di testo: larghezza fissa, non si restringe
+     né si allarga in base alla posizione. */
+  .card__testo {
+    flex: 1 1 519px;
+    max-width: 519px;
+    min-width: 0;
+  }
+
+  /* La cornice non si schiaccia se il testo è lungo */
+  .card__cornice {
+    flex: 0 0 auto;
+  }
+
+  /* La cornice nera spessa attorno all'immagine */
+  .card__cornice {
+    width: clamp(200px, 30vw, 352px);
+    aspect-ratio: 352 / 400;
+    height: auto;
+    background: #ffffff;
+    border: 20px solid var(--c-nero);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .card__cornice img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Anselmo guarda sempre verso il testo.
+     Le immagini originali guardano a sinistra, quindi vanno bene
+     sulle card invertite (testo a sinistra). Sulle altre le specchio. */
+  .card:nth-child(odd) .card__cornice img {
+    transform: scaleX(-1);
+  }
+
+  .card__testo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+
+  /* refuso corretto: era "align-item" (senza la s) e veniva ignorato */
+
+  .card__titolo {
+    font-family: var(--f-display);
+    font-size: var(--t-card);
+    font-weight: 400;
+    color: var(--c-testo);
+  }
+
+  .card__descrizione {
+    font-family: var(--f-testo);
+    font-size: var(--t-testo);
+    line-height: 1.35;
+    color: var(--c-testo);
+  }
+
+  /* Bottone pieno terracotta */
+  .btn-primario {
+    padding: 3px 10px;
+    font-family: var(--f-accent);
+    font-size: var(--t-bottone);
+    color: var(--c-testo);
+    background: var(--c-bordo);
+    transition: transform 0.15s ease;
+  }
+
+  .btn-primario:hover { transform: translateY(-2px); }
+
+  /* ---------- Schermi stretti ---------- */
+  @media (max-width: 820px) {
+    /* immagine sopra, testo sotto, su tutte le card */
+    .card,
+    .card:nth-child(even) {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .card__testo {
+      flex: 1 1 auto;
+      max-width: 100%;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .card__cornice {
+      width: min(80vw, 352px);
+      border-width: 12px;
+    }
+
+    /* niente specchiature: a colonna singola Anselmo guarda avanti */
+    .card:nth-child(odd) .card__cornice img { transform: none; }
+
+    .progetti__elenco { gap: 64px; }
+    .titolo-sezione { margin-bottom: 44px; }
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import { contatti } from '../data/contatti.js';
+---
+
+<footer class="footer">
+  <div class="contenitore footer__griglia">
+    <a class="footer__mascotte" href="/" aria-label="Torna alla home">
+      <img
+        src="/img/anselmo-hero.webp"
+        alt="Anselmo, la mascotte di Andrea Messina"
+        width="79"
+        height="100"
+        loading="lazy"
+      />
+    </a>
+
+    <div class="footer__contatti">
+      <h2 class="footer__titolo">Contatti</h2>
+
+      <div class="footer__dati">
+        <ul class="footer__voci">
+        <li>
+          <a href={`mailto:${contatti.email}`}>
+            <svg viewBox="0 0 24 16" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="22" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M1.5 2 12 9.5 22.5 2" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
+            {contatti.email}
+          </a>
+        </li>
+
+        <li>
+          <a href={contatti.instagram.url} target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="2" y="2" width="20" height="20" rx="5.5" fill="none" stroke="currentColor" stroke-width="2" />
+              <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2" />
+              <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" />
+            </svg>
+            {contatti.instagram.etichetta}
+          </a>
+        </li>
+
+        <li>
+          {contatti.linkedin.url
+            ? <a href={contatti.linkedin.url} target="_blank" rel="noopener noreferrer">{contatti.linkedin.etichetta}</a>
+            : <span>{contatti.linkedin.etichetta}</span>}
+        </li>
+        </ul>
+
+        <p class="footer__piva">{contatti.partitaIva}</p>
+      </div>
+    </div>
+
+    <a class="footer__cta" href="/lavoriamo">progettiamo<br />il tuo sito</a>
+
+    <p class="footer__copyright">{contatti.copyright}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 50px 40px;
+    height: 50vh;
+    background-color: #F1D8B9;
+  }
+
+  .footer__griglia {
+    display: grid;
+    /* La colonna dei contatti è elastica e spinge il bottone a destra.
+       P.IVA non ha più una colonna sua: sta dentro il blocco contatti,
+       così si allinea da sola alla prima riga invece che con un margine
+       calcolato a mano. */
+    grid-template-columns: 79px 1fr auto;
+    grid-template-areas:
+      'mascotte contatti cta'
+      'copy     copy     cta';
+    column-gap: 48px;
+    row-gap: 60px;
+    align-items: start;
+  }
+
+  .footer__mascotte {
+    grid-area: mascotte;
+    display: block;
+    width: 79px;
+  }
+
+  .footer__mascotte img {
+    width: 100%;
+    height: auto;
+    transform: scaleX(-1);   /* specchiata, come nel design */
+    transition: transform 0.2s ease;
+  }
+
+  .footer__mascotte:hover img { transform: scaleX(-1) translateY(-4px); }
+
+  .footer__contatti { grid-area: contatti; }
+
+  .footer__titolo {
+    font-family: var(--f-accent);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--c-nero);
+    margin-bottom: 35px;
+  }
+
+  /* Voci e P.IVA sullo stesso rigo di partenza: allineate dal
+     layout, non da un numero. */
+  .footer__dati {
+    display: flex;
+    align-items: flex-start;
+    gap: 64px;
+    flex-wrap: wrap;
+  }
+
+  .footer__voci {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: var(--f-minuto);
+    font-size: var(--t-corpo);
+    color: var(--c-nero);
+  }
+
+  .footer__voci a,
+  .footer__voci span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer__voci a:hover { text-decoration: underline; }
+
+  .footer__voci svg {
+    width: 22px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .footer__piva {
+    font-family: var(--f-minuto);
+    font-size: var(--t-corpo);
+    color: var(--c-nero);
+  }
+
+  /* Il bottone grande: stessa forma di quello dell'hero, corpo 48px */
+  .footer__cta {
+    grid-area: cta;
+    align-self: start;
+    padding: 5px 8px;
+    font-family: var(--f-accent);
+    font-size: 48px;
+    line-height: 1.2;
+    color: var(--c-terracotta);
+    background: var(--c-sfondo);
+    border: 1px solid var(--c-bordo);
+    filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
+    transition: transform 0.15s ease;
+  }
+
+  .footer__cta:hover { transform: translate(-2px, 2px); }
+
+  .footer__copyright {
+    grid-area: copy;
+    font-family: var(--f-minuto);
+    font-size: var(--t-corpo);
+    color: var(--c-nero);
+  }
+
+  /* ---------- Schermi medi: il bottone va a capo ---------- */
+  @media (max-width: 1000px) {
+    .footer__griglia {
+      grid-template-columns: 79px 1fr;
+      grid-template-areas:
+        'mascotte contatti'
+        'cta      cta'
+        'copy     copy';
+      row-gap: 40px;
+    }
+
+    .footer__cta { font-size: clamp(26px, 4.4vw, 48px); }
+  }
+
+  /* ---------- Schermi stretti: tutto incolonnato ---------- */
+  @media (max-width: 640px) {
+    .footer__griglia {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        'mascotte'
+        'contatti'
+        'cta'
+        'copy';
+      row-gap: 28px;
+      column-gap: 0;
+    }
+
+    /* a colonna singola la P.IVA scende sotto le voci */
+    .footer__dati { flex-direction: column; gap: 16px; }
+    .footer__titolo { margin-bottom: 20px; }
+  }
+</style>

@@ -1,0 +1,156 @@
+---
+import Navbar from "./Navbar.astro";
+---
+
+<header class="hero">
+  <div class="contenitore">
+    <Navbar />
+
+    <div class="hero__griglia">
+      <div class="hero__testo">
+        <h1 class="titolone">Andrea Messina</h1>
+        <h1 class="titolone">Web designer</h1>
+
+        <p class="hero__claim">La tua attività merita<br />di essere notata.</p>
+
+        <a class="btn-contorno" href="/lavoriamo"
+          >progettiamo<br />il tuo sito</a
+        >
+      </div>
+
+      <div class="hero__immagine">
+        <img
+          src="/img/anselmo-hero.webp"
+          alt="Anselmo, la mascotte di Andrea Messina"
+          width="500"
+          height="500"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <span class="hero__distinguiti">DISTINGUITI!</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding-block: 3% 80px;
+    height: 100vh;
+  }
+
+  .hero__griglia {
+    display: grid;
+    /* minmax(0, 1fr) lascia che la colonna si restringa sotto la
+       larghezza del titolo: così il testo sconfina sopra la mascotte,
+       come nel design, invece di andare a capo. */
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 40px;
+    align-items: start;
+    margin-top: 5%;
+  }
+
+  .hero__testo {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__testo .titolone {
+    white-space: nowrap;
+  }
+
+  .hero__claim {
+    font-family: var(--f-accent);
+    font-size: var(--t-sottotitolo);
+    line-height: 1.2;
+    color: var(--c-terracotta);
+    margin-top: 48px;
+  }
+
+  /* Bottone con bordo e ombra piena, come nel design */
+  .btn-contorno {
+    display: inline-block;
+    margin-top: 48px;
+    padding: 5px 8px;
+    font-family: var(--f-accent);
+    font-size: var(--t-bottone);
+    line-height: 1.2;
+    color: var(--c-terracotta);
+    background: var(--c-sfondo);
+    border: 1px solid var(--c-bordo);
+    filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
+    transition: transform 0.15s ease;
+  }
+
+  .btn-contorno:hover {
+    transform: translate(-2px, 2px);
+  }
+
+  .hero__immagine {
+    position: relative;
+  }
+
+  .hero__immagine img {
+    /* elastica: non supera i 597px del Figma ma si restringe
+       quando lo schermo non li concede */
+    width: clamp(220px, 42vw, 597px);
+    height: auto;
+    /* riserva lo spazio prima che l'immagine arrivi:
+       niente salto di layout, niente alt text lampeggiante */
+    aspect-ratio: 500 / 500;
+  }
+
+  .hero__distinguiti {
+    position: absolute;
+    left: -34%;
+    top: 50%;
+    font-family: var(--f-accent);
+    font-size: var(--t-titolo);
+    color: var(--c-giallo);
+    white-space: nowrap;
+  }
+
+  /* ---------- Schermi stretti ---------- */
+  @media (max-width: 860px) {
+    .hero {
+      height: auto; /* il 100vh soffoca il contenuto sui telefoni */
+      padding-block: 24px 60px;
+    }
+
+    .hero__griglia {
+      grid-template-columns: 1fr; /* testo sopra, mascotte sotto */
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    /* niente piu' sconfinamento: a una colonna il titolo puo' andare a capo */
+    .hero__testo .titolone {
+      white-space: normal;
+    }
+
+    .hero__claim {
+      margin-top: 28px;
+    }
+    .btn-contorno {
+      margin-top: 28px;
+    }
+
+    .hero__immagine {
+      display: flex;
+      flex-direction: column; /* la scritta sopra, la mascotte sotto */
+      align-items: center;
+    }
+
+    .hero__immagine img {
+      width: min(78vw, 360px);
+    }
+
+    /* "DISTINGUITI!" torna nel flusso, sotto la mascotte */
+    .hero__distinguiti {
+      position: static;
+      display: block;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+  }
+</style>

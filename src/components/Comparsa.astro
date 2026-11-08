@@ -1,0 +1,52 @@
+---
+// Avvolge un contenuto e lo fa comparire quando entra nello schermo.
+//   direzione: 'basso' | 'alto' | 'sinistra' | 'destra' | 'dissolvenza'
+//   ritardo:   millisecondi di attesa dopo l'ingresso
+// attendiScroll: anche se l'elemento e' gia' in vista al caricamento,
+// non compare finche' la persona non scorre almeno una volta.
+const {
+  direzione = 'basso',
+  ritardo = 0,
+  attendiScroll = false,
+  class: classe = '',
+} = Astro.props;
+---
+
+<div
+  class:list={['comparsa', `comparsa--${direzione}`, classe]}
+  style={`--ritardo: ${ritardo}ms;`}
+  data-attendi-scroll={attendiScroll ? '' : undefined}
+>
+  <slot />
+</div>
+
+<style>
+  .comparsa {
+    opacity: 0;
+    transition:
+      opacity 0.7s ease var(--ritardo),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--ritardo);
+    will-change: opacity, transform;
+  }
+
+  .comparsa--basso     { transform: translateY(80px); }
+  .comparsa--alto      { transform: translateY(-80px); }
+  .comparsa--sinistra  { transform: translateX(-80px); }
+  .comparsa--destra    { transform: translateX(80px); }
+  .comparsa--dissolvenza { transform: none; }
+
+  .comparsa.visibile {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Chi ha chiesto meno animazioni al sistema operativo
+     vede tutto subito, senza movimento. */
+  @media (prefers-reduced-motion: reduce) {
+    .comparsa {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

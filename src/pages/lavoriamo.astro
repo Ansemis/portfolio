@@ -1,0 +1,463 @@
+---
+import Base from '../layouts/Base.astro';
+import Navbar from '../components/Navbar.astro';
+import Comparsa from '../components/Comparsa.astro';
+import Footer from '../components/Footer.astro';
+
+// I tre passi del processo, nell'ordine in cui compaiono
+const passi = [
+  'compila il form qui sotto',
+  'attendi un massimo di 3 giorni lavorativi',
+  'riceverai una mail con un preventivo\noppure eventuali chiarimenti per poterci concordare meglio',
+];
+---
+
+<Base
+  titolo="Lavoriamo — Andrea Messina"
+  descrizione="Raccontami il tuo progetto: ti rispondo entro 3 giorni lavorativi con un preventivo."
+>
+  <article class="lavoriamo">
+    <div class="contenitore">
+      <Navbar />
+
+      <h1 class="lavoriamo__titolo">lavoriamo</h1>
+
+      <!-- ===== Anselmo col punto di domanda: subito visibile ===== -->
+      <section class="scena">
+        <div class="scena__blocco scena__blocco--dubbio">
+          <span class="titolone scena__parola">come?</span>
+          <img
+            class="scena__anselmo"
+            src="/img/anselmo-dubbio.webp"
+            alt="Anselmo perplesso, con un punto di domanda"
+            width="350"
+            height="350"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+
+        <!-- ===== Anselmo con la lampadina: sale dal basso al primo scroll ===== -->
+        <Comparsa direzione="basso" attendiScroll class="scena__blocco scena__blocco--idea">
+          <span class="titolone scena__parola">semplice!</span>
+          <img
+            class="scena__anselmo"
+            src="/img/anselmo-idea.webp"
+            alt="Anselmo illuminato da un'idea"
+            width="350"
+            height="350"
+            loading="lazy"
+            decoding="async"
+          />
+        </Comparsa>
+      </section>
+
+      <!-- ===== I tre passi, uno dopo l'altro ===== -->
+      <section class="passi">
+        {passi.map((testo, i) => (
+          <Comparsa direzione="sinistra" ritardo={i * 120}>
+            <p class="passo">{testo}</p>
+          </Comparsa>
+        ))}
+      </section>
+
+      <!-- ===== Il form ===== -->
+      <section class="modulo" id="form">
+        <Comparsa direzione="dissolvenza">
+          <h2 class="modulo__titolo">raccontami il progetto</h2>
+          <p class="modulo__occhiello">
+            Più dettagli mi dai, più il preventivo sarà preciso.
+            I campi con <span aria-hidden="true">*</span> sono necessari.
+          </p>
+        </Comparsa>
+
+        <Comparsa direzione="basso" ritardo={100}>
+          <form
+            class="form"
+            name="contatti"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="lascia-vuoto"
+          >
+            <input type="hidden" name="form-name" value="contatti" />
+
+            <!-- trappola anti-spam: invisibile a chi naviga, i robot la compilano -->
+            <p class="trappola">
+              <label>Lascia vuoto questo campo
+                <input name="lascia-vuoto" tabindex="-1" autocomplete="off" />
+              </label>
+            </p>
+
+            <div class="form__riga">
+              <div class="campo">
+                <label for="nome">Nome e cognome *</label>
+                <input id="nome" name="nome" type="text" required autocomplete="name" />
+              </div>
+
+              <div class="campo">
+                <label for="email">Email *</label>
+                <input id="email" name="email" type="email" required autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="form__riga">
+              <div class="campo">
+                <label for="attivita">Attività o azienda</label>
+                <input id="attivita" name="attivita" type="text" autocomplete="organization" />
+              </div>
+
+              <div class="campo">
+                <label for="tipo">Di cosa hai bisogno? *</label>
+                <select id="tipo" name="tipo" required>
+                  <option value="">Scegli…</option>
+                  <option>Sito vetrina</option>
+                  <option>E-commerce</option>
+                  <option>Logo e identità visiva</option>
+                  <option>Restyling di un sito esistente</option>
+                  <option>Altro / non lo so ancora</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form__riga">
+              <div class="campo">
+                <label for="tempi">Quando ti servirebbe?</label>
+                <select id="tempi" name="tempi">
+                  <option value="">Nessuna fretta particolare</option>
+                  <option>Entro un mese</option>
+                  <option>Entro tre mesi</option>
+                  <option>Ho una data precisa</option>
+                </select>
+              </div>
+
+              <div class="campo">
+                <label for="riferimenti">Un sito che ti piace</label>
+                <input id="riferimenti" name="riferimenti" type="text" placeholder="anche solo un indirizzo" />
+              </div>
+            </div>
+
+            <div class="campo campo--largo">
+              <label for="messaggio">Raccontami *</label>
+              <textarea
+                id="messaggio"
+                name="messaggio"
+                rows="6"
+                required
+                placeholder="Che cosa fai, a chi ti rivolgi, cosa vorresti ottenere dal sito."
+              ></textarea>
+            </div>
+
+            <label class="consenso">
+              <input type="checkbox" name="privacy" required />
+              <span>Acconsento al trattamento dei dati per essere ricontattato. *</span>
+            </label>
+
+            <button class="invia" type="submit">mandamelo</button>
+          </form>
+        </Comparsa>
+      </section>
+    </div>
+  </article>
+
+  <Footer />
+</Base>
+
+<script>
+  // Al primo tentativo di scorrere, la pagina resta ferma per un attimo:
+  // sale l'Anselmo con la lampadina, poi lo scorrimento torna libero.
+  const idea = document.querySelector('.scena__blocco--idea');
+  const motoRidotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (idea && !motoRidotto) {
+    const DURATA = 850;          // quanto resta ferma, in millisecondi
+    let ancora = window.scrollY; // la posizione da tenere
+    let fatto = false;
+    let bloccato = false;
+
+    const trattieni = (ev) => { if (bloccato) ev.preventDefault(); };
+    const riporta = () => { if (bloccato) window.scrollTo(0, ancora); };
+
+    const avvia = () => {
+      if (fatto) return;
+      fatto = true;
+      bloccato = true;
+      idea.classList.add('visibile');
+      window.scrollTo(0, ancora);
+
+      setTimeout(() => {
+        bloccato = false;
+        removeEventListener('wheel', suRotella);
+        removeEventListener('touchmove', suTocco);
+        removeEventListener('scroll', suScroll);
+        removeEventListener('keydown', suTasto);
+      }, DURATA);
+    };
+
+    // La rotella e il dito vanno intercettati prima che muovano la pagina,
+    // quindi passive: false. Lo scroll serve per la barra laterale, che
+    // non passa da nessuno dei due.
+    const suRotella = (e) => { avvia(); trattieni(e); };
+    const suTocco   = (e) => { avvia(); trattieni(e); };
+    const suScroll  = () => { avvia(); riporta(); };
+    const suTasto   = (e) => {
+      if ([' ', 'ArrowDown', 'PageDown', 'End'].includes(e.key)) {
+        avvia();
+        trattieni(e);
+      }
+    };
+
+    addEventListener('wheel', suRotella, { passive: false });
+    addEventListener('touchmove', suTocco, { passive: false });
+    addEventListener('scroll', suScroll);
+    addEventListener('keydown', suTasto);
+  }
+</script>
+
+
+<style>
+  .lavoriamo { padding-block: 50px 100px; }
+
+  .lavoriamo__titolo {
+    font-family: var(--f-shade);
+    font-size: var(--t-sezione);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--c-terracotta);
+    margin-top: 40px;
+  }
+
+  /* ---------- I due Anselmi ---------- */
+  .scena {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 4%;
+    margin-top: 40px;
+    padding-left: 3%;
+  }
+
+  .scena__blocco {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* il secondo scende di un gradino, come nel design */
+  .scena__blocco--idea { margin-top: 55px; }
+
+  .scena__parola {
+    font-size: clamp(30px, 1rem + 4vw, 75px);
+    line-height: 1;
+    margin-top: 10px;
+    white-space: nowrap;
+  }
+
+  .scena__anselmo {
+    width: clamp(150px, 24vw, 350px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+
+  /* ---------- I tre passi ---------- */
+  .passi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    margin-top: 90px;
+  }
+
+  .passo {
+    display: inline-block;
+    padding: 10px;
+    background: var(--c-ombra-bottone);
+    font-family: var(--f-display);
+    font-size: clamp(17px, 0.6rem + 2.1vw, 40px);
+    line-height: 1.25;
+    color: var(--c-terracotta);
+    text-shadow: var(--ombra-titolo);
+    white-space: pre-line;   /* rispetta l'a capo scritto nei dati */
+  }
+
+  /* ---------- Il form ---------- */
+  .modulo { margin-top: 140px; }
+
+  .modulo__titolo {
+    font-family: var(--f-accent);
+    font-size: var(--t-titolo);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--c-terracotta);
+  }
+
+  .modulo__occhiello {
+    max-width: 52ch;
+    margin-top: 16px;
+    font-family: var(--f-testo);
+    font-size: var(--t-testo);
+    line-height: 1.45;
+    color: var(--c-testo);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    max-width: 920px;
+    margin-top: 48px;
+    padding: 40px;
+    background: var(--c-sfondo);
+    border: 2px solid var(--c-nero);
+    box-shadow: -7px 7px 0 var(--c-ombra-bottone);
+  }
+
+  .form__riga {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px;
+  }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .campo label {
+    font-family: var(--f-accent);
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--c-terracotta);
+  }
+
+  .campo input,
+  .campo select,
+  .campo textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--f-testo);
+    font-size: 18px;
+    color: var(--c-testo);
+    background: #fff;
+    border: 2px solid var(--c-nero);
+    border-radius: 0;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+
+  .campo textarea { resize: vertical; min-height: 150px; }
+
+  .campo input::placeholder,
+  .campo textarea::placeholder { color: #9a9a9a; }
+
+  .campo input:focus,
+  .campo select:focus,
+  .campo textarea:focus {
+    outline: none;
+    border-color: var(--c-bordo);
+    box-shadow: -4px 4px 0 var(--c-ombra-bottone);
+  }
+
+  /* il campo non valido si segnala solo dopo un tentativo di invio */
+  .form:invalid .campo input:user-invalid,
+  .form:invalid .campo textarea:user-invalid,
+  .form:invalid .campo select:user-invalid {
+    border-color: #c0392b;
+  }
+
+  .consenso {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: var(--f-testo);
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-testo);
+    cursor: pointer;
+  }
+
+  .consenso input {
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--c-bordo);
+    cursor: pointer;
+  }
+
+  .invia {
+    align-self: flex-start;
+    padding: 12px 24px;
+    font-family: var(--f-accent);
+    font-size: var(--t-bottone);
+    color: var(--c-sfondo);
+    background: var(--c-bordo);
+    border: 2px solid var(--c-nero);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .invia:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--c-nero);
+  }
+
+  .invia:active { transform: none; box-shadow: none; }
+
+  /* trappola anti-spam: fuori dallo schermo, mai vista da chi naviga */
+  .trappola {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* ---------- Schermi stretti ---------- */
+  @media (max-width: 900px) {
+    .scena {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+      margin-top: 28px;
+      padding-left: 0;
+    }
+
+    /* il secondo non scende piu': a colonna singola e' gia' sotto */
+    .scena__blocco--idea {
+      margin-top: 0;
+      align-self: flex-end;
+    }
+
+    .scena__anselmo { width: min(46vw, 260px); }
+
+    .passi { margin-top: 56px; gap: 14px; }
+
+    .passo { padding: 8px 10px; }
+
+    .modulo { margin-top: 90px; }
+
+    .form {
+      padding: 24px 20px;
+      gap: 20px;
+      box-shadow: -5px 5px 0 var(--c-ombra-bottone);
+    }
+
+    /* una colonna sola: i campi affiancati diventano illeggibili */
+    .form__riga {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .campo input,
+    .campo select,
+    .campo textarea {
+      /* 16px esatti: sotto questa misura iOS ingrandisce la pagina
+         da solo quando si tocca il campo */
+      font-size: 16px;
+      padding: 11px 12px;
+    }
+
+    .campo textarea { min-height: 130px; }
+  }
+</style>

@@ -1,0 +1,499 @@
+---
+import Base from '../../layouts/Base.astro';
+import Navbar from '../../components/Navbar.astro';
+import Etichetta from '../../components/Etichetta.astro';
+import Footer from '../../components/Footer.astro';
+import { progetti } from '../../data/progetti.js';
+
+// Una pagina per ogni progetto dell'elenco in progetti.js
+export function getStaticPaths() {
+  return progetti.map((progetto, i) => ({
+    params: { slug: progetto.slug },
+    props: {
+      progetto,
+      precedente: progetti[i - 1] ?? progetti[progetti.length - 1],
+      prossimo:   progetti[i + 1] ?? progetti[0],
+    },
+  }));
+}
+
+const { progetto, precedente, prossimo } = Astro.props;
+---
+
+<Base titolo={`${progetto.titolo} — Andrea Messina`} descrizione={progetto.descrizione}>
+  <article class="caso">
+    <div class="contenitore">
+      
+
+      <!-- ============ TESTATA: titolo a tutta larghezza,
+           mascotte a destra, obiettivo e strategia a sinistra ============ -->
+      <header class="testata">
+        <h1 class="caso__titolo">{progetto.titolo}</h1>
+
+        <img
+          class="testata__eroe"
+          src={progetto.eroe.immagine}
+          alt={progetto.eroe.alt}
+          width="541"
+          height="665"
+          fetchpriority="high"
+          decoding="async"
+        />
+
+        <div class="testata__intro">
+          <div class="voce">
+            <Etichetta testo="obiettivo" rotazione={-2} />
+            <p class="caso__testo">{progetto.obiettivo}</p>
+          </div>
+
+          <div class="voce">
+            <Etichetta testo="strategia" rotazione={2} />
+            <p class="caso__testo">{progetto.strategia}</p>
+          </div>
+        </div>
+      </header>
+
+      {progetto.schermate.length > 0 && (
+        <div class="galleria galleria--due">
+          {progetto.schermate.map((v) =>
+            typeof v === 'string'
+              ? <img src={v} alt="" loading="lazy" decoding="async" />
+              : <div class="segnaposto"><span>immagine in arrivo</span></div>
+          )}
+        </div>
+      )}
+
+      {progetto.telefoni.length > 0 && (
+        <div class="galleria galleria--telefoni">
+          {progetto.telefoni.map((img) => <img src={img} alt="" loading="lazy" />)}
+        </div>
+      )}
+
+      <!-- ============ CRITICITÀ: Anselmo a sinistra, testo sopra a destra -->
+      <section class="blocco blocco--criticita">
+        <img class="blocco__anselmo" src="/img/anselmo-criticita.webp"
+             alt="" width="400" height="500" loading="lazy" />
+        <div class="blocco__corpo">
+          <Etichetta testo="criticità" rotazione={-3} />
+          <p class="caso__testo">{progetto.criticita}</p>
+        </div>
+      </section>
+
+      <!-- ============ SOLUZIONI: testo a sinistra, Anselmo a destra ====== -->
+      <section class="blocco blocco--soluzioni">
+        <img class="blocco__anselmo" src="/img/anselmo-positivita.webp"
+             alt="" width="400" height="500" loading="lazy" />
+        <div class="blocco__corpo">
+          <Etichetta testo="soluzioni" rotazione={2} />
+          <p class="caso__testo">{progetto.soluzioni}</p>
+        </div>
+      </section>
+
+      {progetto.dettagli.length > 0 && (
+        <div class="galleria galleria--due">
+          {progetto.dettagli.map((v) =>
+            typeof v === 'string'
+              ? <img src={v} alt="" loading="lazy" decoding="async" />
+              : <div class="segnaposto"><span>immagine in arrivo</span></div>
+          )}
+        </div>
+      )}
+
+      {progetto.vetrinaLogo && (
+        <section class="vetrina">
+          <img class="vetrina__sfondo" src={progetto.vetrinaLogo.sfondo}
+               alt={`Simbolo di ${progetto.titolo}`} loading="lazy" />
+
+          <div class="vetrina__destra">
+            <img class="vetrina__simbolo" src={progetto.vetrinaLogo.simbolo}
+                 alt="" loading="lazy" />
+            <img class="vetrina__logotipo" src={progetto.vetrinaLogo.logotipo}
+                 alt={`Logotipo di ${progetto.titolo}`} loading="lazy" />
+          </div>
+        </section>
+      )}
+
+      <!-- ============ CONCLUSIONI: solo testo, rientrato ================= -->
+      <section class="blocco blocco--conclusioni">
+        <div class="blocco__corpo">
+          <Etichetta testo="conclusioni" rotazione={-2} />
+          <p class="caso__testo">{progetto.conclusioni}</p>
+        </div>
+      </section>
+
+      <!-- ============ STRUMENTI: Anselmo col pennello + loghi =========== -->
+      <section class="strumenti">
+        <div class="strumenti__riga">
+        <img class="strumenti__anselmo" src="/img/anselmo-strumento.webp"
+             alt="" width="279" height="350" loading="lazy" />
+
+        <ul class="strumenti__elenco">
+          {progetto.strumenti.map((s) => (
+            <li>
+              {s.logo
+                ? <img src={s.logo} alt={s.nome} loading="lazy" />
+                : <span class="strumenti__nome">{s.nome}</span>}
+            </li>
+          ))}
+        </ul>
+        </div>
+
+        <div class="strumenti__etichetta">
+          <Etichetta testo="strumenti utilizzati" rotazione={-2} />
+        </div>
+      </section>
+
+      <!-- ============ PRECEDENTE / PROSSIMO ============================= -->
+      <nav class="salto">
+        <a class="salto__link" href={`/progetti/${precedente.slug}`}>
+          <img src="/img/anselmo-freccia.webp" alt="" width="199" height="250" loading="lazy" />
+          <Etichetta testo="progetto precedente" rotazione={-2} />
+        </a>
+
+        <a class="salto__link salto__link--destra" href={`/progetti/${prossimo.slug}`}>
+          <img src="/img/anselmo-freccia.webp" alt="" width="199" height="250" loading="lazy" />
+          <Etichetta testo="prossimo progetto" rotazione={2} />
+        </a>
+      </nav>
+    </div>
+  </article>
+
+  <Footer />
+</Base>
+
+<style>
+  .caso { padding-block: 3% 80px; }
+
+  .caso__testo {
+    font-family: var(--f-testo);
+    font-size: var(--t-caso);
+    line-height: 1.45;
+    color: var(--c-testo);
+  }
+
+  /* ---------- TESTATA ----------
+     Le percentuali ricalcano le coordinate del Figma su tela 1440. */
+  .testata {
+    position: relative;
+    margin-top: 4%px;
+  }
+
+  .caso__titolo {
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+    font-family: var(--f-display);
+    font-size: var(--t-progetto);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--c-terracotta);
+    text-shadow: var(--ombra-titolo);
+  }
+
+  .testata__eroe {
+    position: absolute;
+    right: 0;
+    top: 110px;
+    width: 41%;      /* 541 / 1320 */
+    max-width: 541px;
+    height: auto;
+    z-index: 0;
+  }
+
+  .testata__intro {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    width: 36%;      /* 478 / 1320 */
+    margin-left: 12%;
+    padding-top: 90px;
+    padding-bottom: 120px;
+  }
+
+  .voce {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  /* ---------- BLOCCHI CON ANSELMO ----------
+     Immagine e testo affiancati, mai sovrapposti: il testo
+     deve restare leggibile. */
+  .blocco {
+    display: flex;
+    width: 75%;
+    margin-inline: auto;   /* centra il blocco nella pagina */
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 140px;
+  }
+
+  .blocco__anselmo {
+    flex: 0 0 26%;
+    width: 26%;
+    height: auto;
+  }
+
+  .blocco__corpo {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  /* criticità: immagine a sinistra, testo a destra.
+     Anselmo va specchiato per guardare verso il testo. */
+  .blocco--criticita .blocco__anselmo { transform: scaleX(-1); }
+
+  /* soluzioni: testo a sinistra, immagine a destra */
+  .blocco--soluzioni { flex-direction: row-reverse; }
+
+  /* conclusioni: solo testo, rientrato */
+  .blocco--conclusioni .blocco__corpo {
+    width: 60%;
+    max-width: 60%;
+    margin-inline: auto;
+  }
+
+  /* ---------- GALLERIE ---------- */
+  .galleria {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* una sola immagine resta centrata */
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    margin-top: 90px;
+  }
+
+  .galleria img {
+    height: auto;
+    min-width: 0;
+    background: var(--c-etichetta);   /* colore di attesa al posto del testo */
+  }
+
+  /* due affiancate riempiono la riga; da sola si ferma a metà
+     larghezza e resta al centro */
+  .galleria--due img {
+    flex: 1 1 0;
+    max-width: calc(50% - 20px);
+  }
+
+  .galleria--telefoni { gap: 24px; }
+
+  .galleria--telefoni img {
+    flex: 0 1 24%;
+    max-width: 24%;
+  }
+
+  /* Riquadro vuoto, stesse proporzioni degli screen (650x347) */
+  .segnaposto {
+    flex: 1 1 0;
+    max-width: calc(50% - 20px);
+    aspect-ratio: 650 / 347;
+    display: grid;
+    place-items: center;
+    border: 2px dashed var(--c-bordo);
+    background: var(--c-etichetta);
+    font-family: var(--f-minuto);
+    font-size: var(--t-corpo);
+    color: var(--c-bordo);
+  }
+
+  /* ---------- VETRINA DEL LOGO ----------
+     Proporzioni prese dal Figma: sfondo 361px, simbolo 236px,
+     logotipo 593px su tela da 1440. */
+  .vetrina {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3%;
+    margin-top: 110px;
+  }
+
+  .vetrina__sfondo {
+    width: 27%;
+    height: auto;
+  }
+
+  .vetrina__destra {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vetrina__simbolo {
+    width: 40%;
+    height: auto;
+  }
+
+  .vetrina__logotipo {
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- STRUMENTI ---------- */
+  .strumenti { margin-top: 160px; }
+
+  .strumenti__riga {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 70px;
+  }
+
+  .strumenti__anselmo {
+    flex: 0 0 18%;
+    width: 18%;
+    height: auto;
+  }
+
+  .strumenti__elenco {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+  }
+
+  .strumenti__elenco img {
+    height: 50px;
+    width: auto;
+  }
+
+  .strumenti__nome {
+    font-family: var(--f-accent);
+    font-size: var(--t-bottone);
+    color: var(--c-testo);
+  }
+
+  .strumenti__etichetta {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+
+  /* ---------- PRECEDENTE / PROSSIMO ---------- */
+  .salto {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 180px;
+  }
+
+  .salto__link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .salto__link--destra { align-items: flex-end; }
+
+  .salto__link img {
+    width: 199px;
+    height: auto;
+    transition: transform 0.2s ease;
+  }
+
+  /* la freccia di destra guarda dall'altra parte */
+  .salto__link--destra img { transform: scaleX(-1); }
+  .salto__link:hover img { transform: translateY(-8px); }
+  .salto__link--destra:hover img { transform: scaleX(-1) translateY(-8px); }
+
+  /* ---------- Schermi stretti ---------- */
+  @media (max-width: 900px) {
+    .caso__titolo { white-space: normal; }   /* puo' andare a capo */
+
+    .testata {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 36px;
+    }
+
+    .testata__eroe {
+      position: static;
+      width: min(70vw, 420px);
+      align-self: center;
+    }
+
+    .testata__intro {
+      width: 100%;
+      margin-left: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      gap: 48px;
+    }
+
+    /* immagine sopra, testo sotto, su entrambi i blocchi */
+    .blocco,
+    .blocco--soluzioni {
+      flex-direction: column;
+      width: 100%;
+      align-items: flex-start;
+      gap: 24px;
+      margin-top: 80px;
+    }
+
+    .blocco__anselmo {
+      flex: 0 0 auto;
+      width: min(58vw, 300px);
+      align-self: center;
+    }
+
+    .blocco--conclusioni .blocco__corpo {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* gallerie a colonna singola */
+    .galleria--due img,
+    .segnaposto { max-width: 100%; flex-basis: 100%; }
+
+    .galleria--telefoni img { flex-basis: 46%; max-width: 46%; }
+
+    .galleria { gap: 24px; margin-top: 56px; }
+
+    /* strumenti incolonnati */
+    .strumenti { margin-top: 90px; }
+
+    .strumenti__riga {
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .strumenti__anselmo { flex: 0 0 auto; width: min(48vw, 220px); }
+
+    .strumenti__elenco { align-items: center; }
+
+    .strumenti__elenco img { height: 38px; }
+
+    /* vetrina del logo */
+    .vetrina {
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      margin-top: 70px;
+    }
+
+    .vetrina__sfondo { width: min(60vw, 280px); }
+    .vetrina__destra { width: min(78vw, 400px); }
+
+    /* precedente / prossimo */
+    .salto { margin-top: 90px; gap: 16px; }
+    .salto__link img { width: min(28vw, 140px); }
+  }
+
+  @media (max-width: 560px) {
+    .galleria--telefoni img { flex-basis: 70%; max-width: 70%; }
+    .salto { flex-direction: column; align-items: center; gap: 44px; }
+    .salto__link, .salto__link--destra { align-items: center; }
+  }
+</style>

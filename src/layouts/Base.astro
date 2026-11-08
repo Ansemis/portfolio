@@ -1,0 +1,95 @@
+---
+// Layout di base: lo scheletro HTML comune a tutte le pagine.
+// Ogni pagina lo usa e ci inserisce dentro il proprio contenuto.
+import '../styles/global.css';
+import NavbarFlottante from '../components/NavbarFlottante.astro';
+
+const { titolo, descrizione = 'Andrea Messina, web designer. La tua attività merita di essere notata.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titolo}</title>
+    <meta name="description" content={descrizione} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Font da Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Inline&family=Bungee+Shade&family=Inter:wght@400;500;600&family=Lato:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <NavbarFlottante />
+    <slot />
+
+    <script>
+      // Fa comparire gli elementi .comparsa quando entrano nello schermo.
+      // Una volta comparsi restano visibili.
+      //
+      // Due meccanismi in parallelo, di proposito: l'IntersectionObserver
+      // fa il lavoro normale, il controllo su scroll fa da rete di sicurezza.
+      // Se l'osservatore non scatta — succede in certi contesti incorporati —
+      // il contenuto resterebbe invisibile per sempre, che e' il guasto
+      // peggiore possibile su una pagina.
+      const elementi = new Set(document.querySelectorAll('.comparsa'));
+
+      // Chi ha data-attendi-scroll resta nascosto finche' non si scorre,
+      // anche se e' gia' sotto gli occhi all'apertura.
+      let haScrollato = window.scrollY > 0;
+
+      const puoMostrare = (e) =>
+        haScrollato || !e.hasAttribute('data-attendi-scroll');
+
+      const mostra = (e) => {
+        if (!puoMostrare(e)) return false;
+        e.classList.add('visibile');
+        elementi.delete(e);
+        return true;
+      };
+
+      // --- rete di sicurezza: controllo diretto delle posizioni ---
+      const controlla = () => {
+        if (elementi.size === 0) return;
+        const soglia = window.innerHeight * 0.92;
+        for (const e of [...elementi]) {
+          const r = e.getBoundingClientRect();
+          if (r.top < soglia) mostra(e);   // entrato in vista, o gia' passato
+        }
+      };
+
+      // --- meccanismo normale ---
+      if ('IntersectionObserver' in window) {
+        const osservatore = new IntersectionObserver(
+          (voci) => {
+            for (const voce of voci) {
+              if (voce.isIntersecting || voce.boundingClientRect.bottom < 0) {
+                // se deve ancora attendere lo scroll, lo lascio osservato
+                if (mostra(voce.target)) osservatore.unobserve(voce.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+        );
+        elementi.forEach((e) => osservatore.observe(e));
+      }
+
+      addEventListener(
+        'scroll',
+        () => {
+          haScrollato = true;
+          controlla();
+        },
+        { passive: true }
+      );
+      addEventListener('resize', controlla);
+      addEventListener('load', controlla);
+      controlla();
+    </script>
+  </body>
+</html>

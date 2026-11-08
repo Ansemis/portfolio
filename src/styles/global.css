@@ -1,0 +1,102 @@
+/* ============================================
+   VARIABILI — i valori del design Figma.
+   Cambiando un valore qui, cambia in tutto il sito.
+   ============================================ */
+:root {
+  /* Colori */
+  --c-sfondo:        #f4f3f0;
+  --c-terracotta:    #ac5621;  /* titoli e testo principale */
+  --c-giallo:        #f3a200;  /* accento */
+  --c-bordo:         #a75f0d;  /* bordo bottoni */
+  --c-ombra-bottone: #f1d8b9;  /* ombra chiara bottoni */
+  --c-nero:          #000000;
+  --c-testo:         #303030;  /* corpo del testo */
+  --c-etichetta:     #ede4e0;  /* sfondo delle etichette di sezione */
+
+  /* Font */
+  --f-display: 'Bungee Inline', sans-serif;  /* titoloni */
+  --f-accent:  'Bungee', sans-serif;         /* sottotitoli, bottoni */
+  --f-body:    'Inter', sans-serif;          /* navbar */
+  --f-testo:   'Source Sans 3', sans-serif;  /* testi descrittivi */
+  --f-shade:   'Bungee Shade', sans-serif;   /* titoli di sezione giganti */
+  --f-minuto:  'Lato', sans-serif;           /* contatti, note a piè di pagina */
+
+  /* Dimensioni testo — scala fluida.
+     clamp(minimo, valore-che-cresce, massimo): il testo si adatta alla
+     larghezza della finestra fermandosi ai due estremi. L'unita' vw e'
+     l'1% della larghezza; il valore in rem accanto evita che il testo
+     diventi illeggibile su schermi molto stretti. Il massimo e' sempre
+     la misura del Figma. */
+  --t-titolone:    clamp(34px, 1.2rem + 4.6vw, 82px);
+  --t-titolo:      clamp(26px, 1rem + 2.4vw, 48px);
+  --t-sottotitolo: clamp(21px, 0.9rem + 1.7vw, 36px);
+  --t-bottone:     clamp(15px, 0.8rem + 0.4vw, 20px);
+  --t-corpo:       clamp(15px, 0.9rem + 0.1vw, 16px);
+  --t-testo:       clamp(17px, 0.95rem + 0.6vw, 24px);
+  --t-sezione:     clamp(37px, 1rem + 7.6vw, 128px);  /* PROGETTI, SU DI ME  */
+  --t-card:        clamp(22px, 1rem + 1vw, 32px);     /* titolo di una card  */
+  --t-progetto:    clamp(30px, 1rem + 3.6vw, 68px);   /* titolo pagina caso  */
+  --t-etichetta:   clamp(17px, 0.9rem + 0.7vw, 24px); /* OBIETTIVO, ...      */
+  --t-caso:        clamp(16px, 0.9rem + 0.4vw, 20px); /* testo pagine caso   */
+
+  /* Layout */
+  --margine-lato: 6%;   /* rientro laterale, uguale in tutto il sito */
+
+  /* Ombra dei titoli: si assottiglia sugli schermi piccoli,
+     altrimenti su un testo da 34px sembra una macchia. */
+  --ombra-titolo: -5px 7px 0 var(--c-ombra-bottone);
+}
+
+@media (max-width: 700px) {
+  :root { --ombra-titolo: -3px 4px 0 var(--c-nero); }
+}
+
+/* ============================================
+   RESET — azzera le impostazioni del browser
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--c-sfondo);
+  color: var(--c-terracotta);
+  font-family: var(--f-body);
+  font-size: var(--t-corpo);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+img, picture, svg, video {
+  display: block;
+  max-width: 100%;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button, input, textarea, select { font: inherit; color: inherit; }
+
+/* ============================================
+   CLASSI DI BASE
+   ============================================ */
+
+/* Contenitore centrato con i margini laterali del design */
+.contenitore {
+  width: 100%;
+  padding-inline: var(--margine-lato);
+}
+
+/* Titolone in Bungee Inline con ombra nera */
+.titolone {
+  font-family: var(--f-display);
+  font-size: var(--t-titolone);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--c-terracotta);
+  text-shadow: var(--ombra-titolo);
+}
