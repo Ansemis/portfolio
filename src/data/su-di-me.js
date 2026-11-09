@@ -12,7 +12,7 @@ export const pezzi = [
     zona: { x0: 0.038, y0: 0.044, x1: 0.927, y1: 0.961 },
     immagine: '/img/anselmo-scrive.webp',
     alt: 'Anselmo seduto che scrive, circondato da fogli',
-    testo: 'Testo segnaposto. Qui va il paragrafo sul disegno e sul lavoro manuale.',
+    testo: 'Scrivere, da sempre, è la forma d’arte che libera i miei pensieri. Amo scrivere racconti brevi (sono stato presidente di un’associazione culturale nella mia città con focus su scrittura e interpretazione), ma utilizzo la scrittura anche per ragionare meglio.',
     x: 0, y: 261, w: 600, h: 600, rot: 0, z: 1,
   },
   {
@@ -20,7 +20,7 @@ export const pezzi = [
     zona: { x0: 0.0, y0: 0.036, x1: 0.992, y1: 1.0 },
     immagine: '/img/anselmo-libro.webp',
     alt: 'Anselmo che legge un libro',
-    testo: 'Testo segnaposto. Qui va il paragrafo sulla lettura e lo studio.',
+    testo: 'L’amore per la lettura è la (quasi!) diretta conseguenza di quello per la scrittura. Mi rilassa, e ho un debole per le belle storie e le ambientazioni. Principalmente leggo romanzi (narrativa, storico, fantasy. Ci sono pochi generi che non sfiorerei nemmeno), ma ho sempre almeno un saggio nel mio comodino.',
     x: 597, y: 170, w: 700, h: 700, rot: 0, z: 2,
   },
   {
@@ -28,7 +28,7 @@ export const pezzi = [
     zona: { x0: 0.106, y0: 0.038, x1: 0.882, y1: 1.0 },
     immagine: '/img/anselmo-scacchi.webp',
     alt: 'Anselmo che regge una scacchiera',
-    testo: 'Testo segnaposto. Qui va il paragrafo sugli scacchi e sulla strategia.',
+    testo: 'Gli scacchi sono una mia passione relativamente recente: non sono ancora bravo, ma mi diverte passare il tempo a cercare nuove strategie. Trovo il mondo della scacchiera estremamente affascinante.',
     x: 227, y: 287, w: 620, h: 620, rot: 0, z: 3,
   },
   {
@@ -36,7 +36,7 @@ export const pezzi = [
     zona: { x0: 0.106, y0: 0.038, x1: 0.882, y1: 1.0 },
     immagine: '/img/anselmo-scienziato.webp',
     alt: 'Anselmo in camice da scienziato',
-    testo: 'Testo segnaposto. Qui va il paragrafo sulla curiosità e la fisica.',
+    testo: 'E sono anche scienziato!\nNo, non è vero. Ovviamente. Però la scienza mi piace molto! Seguo e leggo curiosità sulla scienza, e ho anche intrapreso una carriera universitaria in chimica, prima di capire che non fosse la mia strada.',
     x: 583, y: 490, w: 520, h: 520, rot: 0, z: 4,
   },
 ];

@@ -102,7 +102,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
     /* Lo spazio in fondo non e' decorativo: i pop-up si aprono sotto
        le grafiche e senza questo margine verrebbero tagliati dal
        bordo della sezione. */
-    padding-bottom: clamp(90px, 15vh, 180px);
+    padding-bottom: clamp(110px, 18vh, 200px);
   }
 
   /* ----- Il manifesto ----- */
@@ -133,7 +133,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
 
     /* Quanto sono rimpicciolite le immagini: 1 = larghezza piena
        della colonna. Abbassalo per rimpicciolirle. */
-    --scala: 1;
+    --scala: 0.92;
   }
 
   .pezzi {
@@ -191,7 +191,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
     top: 100%;   /* subito sotto la grafica */
     /* il testo non deve rimpicciolirsi insieme alle immagini:
        la divisione per --scala annulla la riduzione del gruppo */
-    width: calc(300px / var(--scala));
+    width: calc(400px / var(--scala));
     padding: calc(16px / var(--scala)) calc(20px / var(--scala));
     transform: translate(-50%, calc(12px / var(--scala)))
                rotate(calc(var(--rot) * -1));
@@ -214,7 +214,11 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
     visibility: visible;
   }
 
-  .popup p { margin: 0; }
+  .popup p {
+    margin: 0;
+    /* pre-line: gli a capo scritti nel testo diventano a capo veri */
+    white-space: pre-line;
+  }
 
   /* ---------- Schermi stretti ----------
      Le due colonne non ci stanno piu' affiancate: la frase va sopra,
@@ -249,7 +253,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
 
     /* il pop-up non deve uscire dallo schermo */
     .popup {
-      width: min(74vw, calc(300px / var(--scala)));
+      width: min(74vw, calc(400px / var(--scala)));
     }
   }
 </style>
