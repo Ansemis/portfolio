@@ -14,40 +14,48 @@ export const servizi = [
   {
     id: 'siti',
     titolo: 'Siti e e-commerce',
-    sommario: 'TESTO SEGNAPOSTO — una riga su cosa costruisci e per chi.',
+    sommario: 'Progetto e costruisco il sito da zero: nessun modello riadattato.',
     testo:
-      'TESTO SEGNAPOSTO. Qui racconta come lo diresti a voce a un cliente: che tipo di siti fai, ' +
-      'per quali attività, e cosa cambia per loro averne uno. Due o tre frasi bastano.',
+      'Parto da quello che devi ottenere — farti trovare, raccontare cosa fai, vendere — e ' +
+      'costruisco il sito intorno a quell’obiettivo. Niente temi comprati e rivestiti: struttura, ' +
+      'grafica e codice nascono per te, quindi il sito è veloce, si legge bene dal telefono e non ' +
+      'somiglia a quello di nessun altro. Se vendi online curo anche schede prodotto, pagamenti e ' +
+      'spedizioni, e ti lascio in grado di gestirlo senza dipendere da me.',
     voci: [
-      'Punto segnaposto',
-      'Punto segnaposto',
-      'Punto segnaposto',
+      'Design e sviluppo seguiti dalla stessa persona',
+      'Veloce da caricare, ordinato da leggere',
+      'E-commerce pronto a vendere, non solo a esistere',
     ],
   },
   {
     id: 'identita',
     titolo: 'Identità visiva',
-    sommario: 'TESTO SEGNAPOSTO — una riga su logo, colori e carattere di un marchio.',
+    sommario: 'Logo, colori e caratteri che ti rendono riconoscibile a colpo d’occhio.',
     testo:
-      'TESTO SEGNAPOSTO. Qui il discorso su logo, palette, tipografia e coerenza visiva: ' +
-      'perché contano, e cosa consegni al cliente alla fine.',
+      'Un’identità visiva non è solo un logo: è l’insieme di segni che fa capire chi sei in mezzo ' +
+      'secondo, prima ancora che qualcuno legga il tuo nome. Studio il marchio, scelgo colori e ' +
+      'caratteri, decido come si usano e cosa evitare. Alla fine ti consegno tutto in un documento ' +
+      'che chiunque lavori con te può seguire: il tipografo, chi ti gestisce i social, il prossimo ' +
+      'grafico.',
     voci: [
-      'Punto segnaposto',
-      'Punto segnaposto',
-      'Punto segnaposto',
+      'Logo e varianti per ogni formato',
+      'Palette, caratteri e regole d’uso',
+      'Brandbook da consegnare a chi lavora con te',
     ],
   },
   {
     id: 'restyling',
     titolo: 'Restyling',
-    sommario: 'TESTO SEGNAPOSTO — una riga su quando conviene rifare un sito esistente.',
+    sommario: 'Hai già un sito ma non ti rappresenta più? Lo rimetto in riga.',
     testo:
-      'TESTO SEGNAPOSTO. Qui spiega quando ha senso rimettere mano a un sito che esiste già ' +
-      'invece di rifarlo da zero, e cosa ci si guadagna.',
+      'A volte non serve rifare tutto. Guardo il sito che hai e ti dico con chiarezza cosa non ' +
+      'funziona — l’aspetto, la struttura, la velocità, i testi che non convincono — e cosa invece ' +
+      'conviene tenere. Poi lo sistemo, salvando quello che già ti porta risultati: posizionamento ' +
+      'su Google, contenuti, indirizzi delle pagine.',
     voci: [
-      'Punto segnaposto',
-      'Punto segnaposto',
-      'Punto segnaposto',
+      'Analisi di cosa funziona e cosa no',
+      'Aspetto rinnovato senza perdere contenuti',
+      'Se rifarlo costa meno, te lo dico',
     ],
   },
 ];
