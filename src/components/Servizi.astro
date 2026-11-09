@@ -1,0 +1,156 @@
+---
+import { servizi } from '../data/servizi.js';
+import Comparsa from './Comparsa.astro';
+
+// compatto: la versione breve per la home (titolo + una riga).
+// esteso:   la versione della pagina lavoriamo (paragrafo + punti).
+const { compatto = false, titolo = 'cosa faccio' } = Astro.props;
+---
+
+<section class:list={['servizi', compatto && 'servizi--compatto']} id="servizi">
+  <div class={compatto ? 'contenitore' : ''}>
+    <Comparsa direzione="basso">
+      <h2 class="servizi__titolo">{titolo}</h2>
+    </Comparsa>
+
+    <div class="servizi__elenco">
+      {servizi.map((s, i) => (
+        <Comparsa direzione="basso" ritardo={i * 110}>
+          <article class="servizio">
+            <h3 class="servizio__nome">{s.titolo}</h3>
+
+            {compatto ? (
+              <p class="servizio__sommario">{s.sommario}</p>
+            ) : (
+              <>
+                <p class="servizio__testo">{s.testo}</p>
+                <ul class="servizio__voci">
+                  {s.voci.map((v) => <li>{v}</li>)}
+                </ul>
+              </>
+            )}
+          </article>
+        </Comparsa>
+      ))}
+    </div>
+
+    {compatto && (
+      <Comparsa direzione="basso" ritardo={360}>
+        <a class="servizi__invito" href="/lavoriamo">vediamo cosa ti serve</a>
+      </Comparsa>
+    )}
+  </div>
+</section>
+
+<style>
+  .servizi { margin-top: 120px; }
+
+  .servizi--compatto { margin-top: 90px; padding-block: 0; }
+
+  .servizi__titolo {
+    font-family: var(--f-accent);
+    font-size: var(--t-titolo);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--c-terracotta);
+    margin-bottom: 40px;
+  }
+
+  .servizi__elenco {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  /* le Comparsa avvolgono le schede: devono riempire la cella,
+     altrimenti le schede non si allineano in altezza */
+  .servizi__elenco > :global(*) { display: flex; }
+
+  .servizio {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    padding: 26px 24px;
+    background: var(--c-sfondo);
+    border: 2px solid var(--c-nero);
+    box-shadow: -6px 6px 0 var(--c-ombra-bottone);
+  }
+
+  .servizio__nome {
+    font-family: var(--f-display);
+    font-size: var(--t-card);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--c-terracotta);
+  }
+
+  .servizio__testo,
+  .servizio__sommario {
+    font-family: var(--f-testo);
+    font-size: var(--t-caso);
+    line-height: 1.45;
+    color: var(--c-testo);
+  }
+
+  .servizio__voci {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--f-minuto);
+    font-size: var(--t-corpo);
+    color: var(--c-testo);
+  }
+
+  /* pallino terracotta davanti a ogni voce, disegnato in CSS */
+  .servizio__voci li {
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .servizio__voci li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-bordo);
+  }
+
+  .servizi__invito {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 10px 16px;
+    font-family: var(--f-accent);
+    font-size: var(--t-bottone);
+    color: var(--c-terracotta);
+    background: var(--c-sfondo);
+    border: 1px solid var(--c-bordo);
+    filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
+    transition: transform 0.15s ease;
+  }
+
+  .servizi__invito:hover { transform: translate(-2px, 2px); }
+
+  /* ---------- Schermi stretti ---------- */
+  @media (max-width: 900px) {
+    .servizi { margin-top: 80px; }
+
+    .servizi__elenco {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .servizio {
+      padding: 20px 18px;
+      box-shadow: -5px 5px 0 var(--c-ombra-bottone);
+    }
+
+    .servizi__titolo { margin-bottom: 28px; }
+  }
+</style>
