@@ -2,7 +2,7 @@
 import { pezzi } from '../data/su-di-me.js';
 
 // Le coordinate nel file dati sono in pixel sulla tela del Figma (1440x1024).
-// Qui diventano percentuali, così i pezzi si ridimensionano insieme alla tela
+// Qui diventano percentuali, cosi' i pezzi si ridimensionano insieme alla tela
 // invece di restare ancorati a una misura fissa.
 const TELA_W = 1440;
 const TELA_H = 1024;
@@ -10,76 +10,77 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
 ---
 
 <section class="su-di-me" id="chi-sono">
-  <div class="collage">
-    <h2 class="titolo-sezione">SU DI ME</h2>
+  <h2 class="titolo-sezione">SU DI ME</h2>
 
-    <!-- I ritagli vivono su una tela di 1440x1024 con le coordinate
-         esatte del Figma. Il gruppo intero viene poi rimpicciolito
-         dal fattore --scala, senza toccare il titolo. -->
-    <div class="pezzi">
-      {pezzi.map((p) => (
-        <figure
-          class="pezzo"
-          tabindex="0"
-          style={`
-            --x: ${pc(p.x, TELA_W)};
-            --y: ${pc(p.y, TELA_H)};
-            --w: ${pc(p.w, TELA_W)};
-            --h: ${pc(p.h, TELA_H)};
-            --rot: ${p.rot}deg;
-            --z: ${p.z};
-          `}
-        >
-          <img src={p.immagine} alt={p.alt} loading="lazy" />
+  <div class="contenuto">
+    <!-- A sinistra la frase, fuori dal collage: e' il manifesto,
+         deve leggersi subito e non dipendere da un hover. -->
+    <blockquote class="manifesto">
+      <p>
+        Sono convinto che essere creativi e distinguersi sia il modo giusto per
+        affrontare il mio lavoro, ma non solo. In un mondo che si affaccia sempre
+        più all&rsquo;IA conservare il lato umano, artistico ci contraddistingue
+        dalla massa.
+      </p>
+    </blockquote>
 
-          <!-- area sensibile: ricalca il disegno, non il riquadro -->
-          <span
-            class="zona"
+    <!-- A destra i ritagli: vivono su una tela di 1440x1024 con le
+         coordinate esatte del Figma. Il gruppo intero viene poi
+         rimpicciolito dal fattore --scala, senza toccare il titolo. -->
+    <div class="collage">
+      <div class="pezzi">
+        {pezzi.map((p) => (
+          <figure
+            class="pezzo"
+            tabindex="0"
             style={`
-              left: ${(p.zona.x0 * 100).toFixed(2)}%;
-              top: ${(p.zona.y0 * 100).toFixed(2)}%;
-              width: ${((p.zona.x1 - p.zona.x0) * 100).toFixed(2)}%;
-              height: ${((p.zona.y1 - p.zona.y0) * 100).toFixed(2)}%;
+              --x: ${pc(p.x, TELA_W)};
+              --y: ${pc(p.y, TELA_H)};
+              --w: ${pc(p.w, TELA_W)};
+              --h: ${pc(p.h, TELA_H)};
+              --rot: ${p.rot}deg;
+              --z: ${p.z};
             `}
-          ></span>
+          >
+            <img src={p.immagine} alt={p.alt} loading="lazy" />
 
-          <figcaption class="popup">
-            <p>{p.testo}</p>
-          </figcaption>
-        </figure>
-      ))}
+            <!-- area sensibile: ricalca il disegno, non il riquadro -->
+            <span
+              class="zona"
+              style={`
+                left: ${(p.zona.x0 * 100).toFixed(2)}%;
+                top: ${(p.zona.y0 * 100).toFixed(2)}%;
+                width: ${((p.zona.x1 - p.zona.x0) * 100).toFixed(2)}%;
+                height: ${((p.zona.y1 - p.zona.y0) * 100).toFixed(2)}%;
+              `}
+            ></span>
+
+            <figcaption class="popup">
+              <p>{p.testo}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .su-di-me {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    overflow: hidden;
-  }
+    padding-inline: var(--margine-lato);
 
-  .collage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-
-    /* Quanto sono rimpicciolite le immagini: 1 = larghezza piena.
-       Abbassalo per rimpicciolirle ancora, alzalo per ingrandirle. */
-    --scala: 0.7;
-
+    /* clip, non hidden: taglia solo in orizzontale (su telefono un
+       pop-up sporgerebbe oltre il bordo e creerebbe lo scroll
+       laterale) e lascia liberi i pop-up di scendere in verticale. */
+    overflow-x: clip;
   }
 
   .titolo-sezione {
-    position: absolute;
-    left: var(--margine-lato);
-    top: 3%;
-    z-index: 30;
-    margin: 0;
+    margin: 0 0 2vh;
     font-family: var(--f-shade);
     font-size: var(--t-sezione);
     font-weight: 400;
@@ -88,21 +89,63 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
     white-space: nowrap;
   }
 
-  /* Il gruppo dei ritagli: tela originale, rimpicciolita in blocco
-     e centrata nella sezione. */
+  /* La riga: frase a sinistra, collage a destra.
+     min-height:0 serve perche' un figlio flex, di suo, non scende
+     mai sotto la sua altezza naturale e sfonderebbe il 100vh. */
+  .contenuto {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    gap: 4%;
+
+    /* Lo spazio in fondo non e' decorativo: i pop-up si aprono sotto
+       le grafiche e senza questo margine verrebbero tagliati dal
+       bordo della sezione. */
+    padding-bottom: clamp(90px, 15vh, 180px);
+  }
+
+  /* ----- Il manifesto ----- */
+  .manifesto {
+    flex: 0 0 30%;
+    margin: 0;
+    padding: clamp(20px, 1.6vw, 30px);
+    background: var(--c-sfondo);
+    border: 3px solid var(--c-nero);
+    box-shadow: -6px 6px 0 var(--c-ombra-bottone);
+    font-family: var(--f-testo);
+    font-size: var(--t-testo);
+    line-height: 1.5;
+    color: var(--c-testo);
+  }
+
+  .manifesto p {
+    margin: 0;
+  }
+
+  /* ----- Il collage ----- */
+  .collage {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    /* Quanto sono rimpicciolite le immagini: 1 = larghezza piena
+       della colonna. Abbassalo per rimpicciolirle. */
+    --scala: 1;
+  }
+
   .pezzi {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    
-    /* La tela si adatta alla LARGHEZZA dello schermo.
-       aspect-ratio tiene le proporzioni interne del collage: senza,
+    position: relative;
+    width: 100%;
+
+    /* aspect-ratio tiene le proporzioni interne del collage: senza,
        una percentuale orizzontale e una verticale si riferirebbero
        a misure scorrelate e i pezzi si stirerebbero. */
-    width: 100%;
     aspect-ratio: 1440 / 1024;
 
-    transform: translate(-50%, -50%) scale(var(--scala));
+    transform: scale(var(--scala));
   }
 
   /* ----- I ritagli ----- */
@@ -126,8 +169,6 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
     object-fit: contain;
     pointer-events: none;
   }
-
-  /* il riquadro ha già misure fisse: l'alt text non compare mai */
 
   .zona {
     position: absolute;
@@ -176,37 +217,34 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
   .popup p { margin: 0; }
 
   /* ---------- Schermi stretti ----------
-     Il collage e' tarato su una tela larga: su un telefono i ritagli
-     diventerebbero francobolli e il titolo li coprirebbe. Qui il
-     gruppo si ingrandisce (occupa piu' della larghezza) e scende
-     sotto il titolo, che non e' piu' sovrapposto. */
+     Le due colonne non ci stanno piu' affiancate: la frase va sopra,
+     i ritagli sotto, e la sezione smette di essere alta 100vh
+     perche' altrimenti dovrebbe comprimere entrambi. */
   @media (max-width: 860px) {
     .su-di-me {
       height: auto;
-      min-height: 72vh;
       padding-block: 40px 60px;
+    }
+
+    .titolo-sezione {
+      white-space: normal;
+      margin-bottom: 16px;
+    }
+
+    .contenuto {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 28px;
+    }
+
+    .manifesto {
+      flex: 0 0 auto;
     }
 
     .collage {
       height: auto;
-      /* 1 = la tela occupa esattamente la larghezza dello schermo.
-         Sopra 1 i ritagli vengono tagliati ai lati. */
+      /* 1 = la tela occupa esattamente la larghezza dello schermo. */
       --scala: 1;
-    }
-
-    .titolo-sezione {
-      position: static;
-      padding-inline: var(--margine-lato);
-      white-space: normal;
-      margin-bottom: 12px;
-    }
-
-    .pezzi {
-      position: relative;
-      left: auto;
-      top: auto;
-      transform: none;
-      margin-inline: auto;
     }
 
     /* il pop-up non deve uscire dallo schermo */
@@ -214,5 +252,4 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
       width: min(74vw, calc(300px / var(--scala)));
     }
   }
-
 </style>
