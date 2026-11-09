@@ -25,7 +25,7 @@ export const servizi = [
     titolo: `Identità visiva`,
     sommario: `Il biglietto da visita silenzioso che ti presenta prima che tu parli.`,
     testo:
-      `L’identità visiva è il biglietto da visita silenzioso che ti presenta a chi ti incontra per la prima volta. Il principio non cambia: si parte dalla tua storia, e da lì nascono logo, colori e caratteri. Alla fine ti consegno anche le regole per usarli, così chiunque lavori con te — il tipografo, chi ti gestisce i social — resta in riga.`,
+      `L’identità visiva è il biglietto da visita silenzioso che ti presenta a chi ti incontra per la prima volta. Il principio non cambia: si parte dalla tua storia, e da lì nascono logo, colori e caratteri. Alla fine avrai tutto ciò che ti serve per mettere in grado te o altri professionisti di lavorare in piena autonomia.`,
   },
   {
     id: `restyling`,
