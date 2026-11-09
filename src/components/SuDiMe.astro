@@ -80,7 +80,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
   }
 
   .titolo-sezione {
-    margin: 0 0 2vh;
+    margin: 5vh 0 2vh;
     font-family: var(--f-shade);
     font-size: var(--t-sezione);
     font-weight: 400;
@@ -102,7 +102,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
     /* Lo spazio in fondo non e' decorativo: i pop-up si aprono sotto
        le grafiche e senza questo margine verrebbero tagliati dal
        bordo della sezione. */
-    padding-bottom: clamp(110px, 18vh, 200px);
+    padding-bottom: clamp(110px, 25vh, 200px);
   }
 
   /* ----- Il manifesto ----- */
@@ -145,7 +145,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
        a misure scorrelate e i pezzi si stirerebbero. */
     aspect-ratio: 1440 / 1024;
 
-    transform: scale(var(--scala));
+    transform: scale(var(--scala)) translateY(-6%);
   }
 
   /* ----- I ritagli ----- */
