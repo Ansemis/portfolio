@@ -3,7 +3,7 @@ import { servizi } from '../data/servizi.js';
 import Comparsa from './Comparsa.astro';
 
 // compatto: la versione breve per la home (titolo + una riga).
-// esteso:   la versione della pagina lavoriamo (paragrafo + punti).
+// esteso:   la versione della pagina lavoriamo (il paragrafo intero).
 const { compatto = false, titolo = 'cosa faccio' } = Astro.props;
 ---
 
@@ -22,12 +22,7 @@ const { compatto = false, titolo = 'cosa faccio' } = Astro.props;
             {compatto ? (
               <p class="servizio__sommario">{s.sommario}</p>
             ) : (
-              <>
-                <p class="servizio__testo">{s.testo}</p>
-                <ul class="servizio__voci">
-                  {s.voci.map((v) => <li>{v}</li>)}
-                </ul>
-              </>
+              <p class="servizio__testo">{s.testo}</p>
             )}
           </article>
         </Comparsa>
@@ -92,34 +87,6 @@ const { compatto = false, titolo = 'cosa faccio' } = Astro.props;
     font-size: var(--t-caso);
     line-height: 1.45;
     color: var(--c-testo);
-  }
-
-  .servizio__voci {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: auto;
-    padding-top: 6px;
-    font-family: var(--f-minuto);
-    font-size: var(--t-corpo);
-    color: var(--c-testo);
-  }
-
-  /* pallino terracotta davanti a ogni voce, disegnato in CSS */
-  .servizio__voci li {
-    position: relative;
-    padding-left: 18px;
-  }
-
-  .servizio__voci li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--c-bordo);
   }
 
   .servizi__invito {
