@@ -14,6 +14,10 @@
 //  I testi stanno fra backtick ` (AltGr + ‘ su tastiera italiana),
 //  non fra apici: così puoi scrivere liberamente l'apostrofo.
 //  Ogni testo sta su una riga sola: non spezzarlo con il +.
+//
+//  NOTA: il campo "telefoni" al momento non viene mostrato — le
+//  immagini con la cornice dello smartphone sono state tolte dalla
+//  pagina. I file restano qui, pronti se le rimettiamo.
 
 export const progetti = [
   {

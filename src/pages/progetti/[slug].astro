@@ -23,119 +23,132 @@ const { progetto, precedente, prossimo } = Astro.props;
 
 <Base titolo={`${progetto.titolo} — Andrea Messina`} descrizione={progetto.descrizione}>
   <article class="caso">
-    <div class="contenitore">
-      
+    <!-- ============================================================
+         La sequenza a schermi impilati (solo da 901px in su).
+         I pannelli immagine restano inchiodati in alto; quello che
+         viene dopo scorre sopra di loro e li copre. I pannelli di
+         testo non sono inchiodati, così possono superare l'altezza
+         dello schermo quando il testo è lungo.
+         ============================================================ -->
+    <div class="sequenza">
 
-      <!-- ============ TESTATA: titolo a tutta larghezza,
-           mascotte a destra, obiettivo e strategia a sinistra ============ -->
-      <header class="testata">
-        <h1 class="caso__titolo">{progetto.titolo}</h1>
+      <!-- 1 — prima schermata: titolo, mascotte, obiettivo, strategia -->
+      <section class="pannello pannello--testo pannello--testata">
+        <div class="contenitore">
+          <header class="testata">
+            <h1 class="caso__titolo">{progetto.titolo}</h1>
 
-        <img
-          class="testata__eroe"
-          src={progetto.eroe.immagine}
-          alt={progetto.eroe.alt}
-          width="541"
-          height="665"
-          fetchpriority="high"
-          decoding="async"
-        />
+            <img
+              class="testata__eroe"
+              src={progetto.eroe.immagine}
+              alt={progetto.eroe.alt}
+              width="541"
+              height="665"
+              fetchpriority="high"
+              decoding="async"
+            />
 
-        <div class="testata__intro">
-          <Comparsa direzione="sinistra">
-            <div class="voce">
-              <Etichetta testo="obiettivo" rotazione={-2} />
-              <p class="caso__testo">{progetto.obiettivo}</p>
+            <div class="testata__intro">
+              <Comparsa direzione="sinistra">
+                <div class="voce">
+                  <Etichetta testo="obiettivo" rotazione={-2} />
+                  <p class="caso__testo">{progetto.obiettivo}</p>
+                </div>
+              </Comparsa>
+
+              <Comparsa direzione="sinistra" ritardo={100}>
+                <div class="voce">
+                  <Etichetta testo="strategia" rotazione={2} />
+                  <p class="caso__testo">{progetto.strategia}</p>
+                </div>
+              </Comparsa>
             </div>
-          </Comparsa>
-
-          <Comparsa direzione="sinistra" ritardo={100}>
-            <div class="voce">
-              <Etichetta testo="strategia" rotazione={2} />
-              <p class="caso__testo">{progetto.strategia}</p>
-            </div>
-          </Comparsa>
+          </header>
         </div>
-      </header>
-
-      {progetto.schermate.length > 0 && (
-        <div class="galleria galleria--due">
-          {progetto.schermate.map((v) =>
-            typeof v === 'string'
-              ? <img src={v} alt="" loading="lazy" decoding="async" />
-              : <div class="segnaposto"><span>immagine in arrivo</span></div>
-          )}
-        </div>
-      )}
-
-      {progetto.telefoni.length > 0 && (
-        <div class="galleria galleria--telefoni">
-          {progetto.telefoni.map((img) => <img src={img} alt="" loading="lazy" />)}
-        </div>
-      )}
-
-      <!-- ============ CRITICITÀ: Anselmo a sinistra, testo sopra a destra -->
-      <section class="blocco blocco--criticita">
-        <Comparsa direzione="sinistra" class="blocco__slot">
-          <img class="blocco__anselmo" src="/img/anselmo-criticita.webp"
-               alt="" width="400" height="500" loading="lazy" />
-        </Comparsa>
-        <Comparsa direzione="destra" ritardo={90} class="blocco__slot blocco__slot--largo">
-          <div class="blocco__corpo">
-            <Etichetta testo="criticità" rotazione={-3} />
-            <p class="caso__testo">{progetto.criticita}</p>
-          </div>
-        </Comparsa>
       </section>
 
-      <!-- ============ SOLUZIONI: testo a sinistra, Anselmo a destra ====== -->
-      <section class="blocco blocco--soluzioni">
-        <Comparsa direzione="destra" class="blocco__slot">
-          <img class="blocco__anselmo" src="/img/anselmo-positivita.webp"
-               alt="" width="400" height="500" loading="lazy" />
-        </Comparsa>
-        <Comparsa direzione="sinistra" ritardo={90} class="blocco__slot blocco__slot--largo">
-          <div class="blocco__corpo">
-            <Etichetta testo="soluzioni" rotazione={2} />
-            <p class="caso__testo">{progetto.soluzioni}</p>
-          </div>
-        </Comparsa>
+      <!-- 2 — le schermate, una per pannello -->
+      {progetto.schermate.map((v) => (
+        <section class="pannello pannello--immagine">
+          {typeof v === 'string'
+            ? <img src={v} alt="" loading="lazy" decoding="async" />
+            : <div class="segnaposto"><span>immagine in arrivo</span></div>}
+        </section>
+      ))}
+
+      <!-- 3 — criticità e soluzioni, insieme in una schermata -->
+      <section class="pannello pannello--testo pannello--caso">
+        <div class="contenitore">
+          <section class="blocco blocco--criticita">
+            <Comparsa direzione="sinistra" class="blocco__slot">
+              <img class="blocco__anselmo" src="/img/anselmo-criticita.webp"
+                   alt="" width="400" height="500" loading="lazy" />
+            </Comparsa>
+            <Comparsa direzione="destra" ritardo={90} class="blocco__slot blocco__slot--largo">
+              <div class="blocco__corpo">
+                <Etichetta testo="criticità" rotazione={-3} />
+                <p class="caso__testo">{progetto.criticita}</p>
+              </div>
+            </Comparsa>
+          </section>
+
+          <section class="blocco blocco--soluzioni">
+            <Comparsa direzione="destra" class="blocco__slot">
+              <img class="blocco__anselmo" src="/img/anselmo-positivita.webp"
+                   alt="" width="400" height="500" loading="lazy" />
+            </Comparsa>
+            <Comparsa direzione="sinistra" ritardo={90} class="blocco__slot blocco__slot--largo">
+              <div class="blocco__corpo">
+                <Etichetta testo="soluzioni" rotazione={2} />
+                <p class="caso__testo">{progetto.soluzioni}</p>
+              </div>
+            </Comparsa>
+          </section>
+        </div>
       </section>
 
-      {progetto.dettagli.length > 0 && (
-        <div class="galleria galleria--due">
-          {progetto.dettagli.map((v) =>
-            typeof v === 'string'
-              ? <img src={v} alt="" loading="lazy" decoding="async" />
-              : <div class="segnaposto"><span>immagine in arrivo</span></div>
-          )}
-        </div>
-      )}
+      <!-- 4 — i dettagli, una per pannello -->
+      {progetto.dettagli.map((v) => (
+        <section class="pannello pannello--immagine">
+          {typeof v === 'string'
+            ? <img src={v} alt="" loading="lazy" decoding="async" />
+            : <div class="segnaposto"><span>immagine in arrivo</span></div>}
+        </section>
+      ))}
 
+      <!-- 5 — la vetrina del logo, dove c'è -->
       {progetto.vetrinaLogo && (
-        <section class="vetrina">
-          <img class="vetrina__sfondo" src={progetto.vetrinaLogo.sfondo}
-               alt={`Simbolo di ${progetto.titolo}`} loading="lazy" />
+        <section class="pannello pannello--immagine">
+          <div class="vetrina">
+            <img class="vetrina__sfondo" src={progetto.vetrinaLogo.sfondo}
+                 alt={`Simbolo di ${progetto.titolo}`} loading="lazy" />
 
-          <div class="vetrina__destra">
-            <img class="vetrina__simbolo" src={progetto.vetrinaLogo.simbolo}
-                 alt="" loading="lazy" />
-            <img class="vetrina__logotipo" src={progetto.vetrinaLogo.logotipo}
-                 alt={`Logotipo di ${progetto.titolo}`} loading="lazy" />
+            <div class="vetrina__destra">
+              <img class="vetrina__simbolo" src={progetto.vetrinaLogo.simbolo}
+                   alt="" loading="lazy" />
+              <img class="vetrina__logotipo" src={progetto.vetrinaLogo.logotipo}
+                   alt={`Logotipo di ${progetto.titolo}`} loading="lazy" />
+            </div>
           </div>
         </section>
       )}
 
-      <!-- ============ CONCLUSIONI: solo testo, rientrato ================= -->
-      <section class="blocco blocco--conclusioni">
-        <Comparsa direzione="basso" class="blocco__slot blocco__slot--largo">
-          <div class="blocco__corpo">
-            <Etichetta testo="conclusioni" rotazione={-2} />
-            <p class="caso__testo">{progetto.conclusioni}</p>
-          </div>
-        </Comparsa>
+      <!-- 6 — conclusioni: l'ultima schermata che sale -->
+      <section class="pannello pannello--testo pannello--finale">
+        <div class="contenitore">
+          <section class="blocco blocco--conclusioni">
+            <Comparsa direzione="basso" class="blocco__slot blocco__slot--largo">
+              <div class="blocco__corpo">
+                <Etichetta testo="conclusioni" rotazione={-2} />
+                <p class="caso__testo">{progetto.conclusioni}</p>
+              </div>
+            </Comparsa>
+          </section>
+        </div>
       </section>
+    </div>
 
+    <div class="contenitore">
       <!-- ============ STRUMENTI: Anselmo col pennello + loghi =========== -->
       <section class="strumenti">
         <div class="strumenti__riga">
@@ -283,41 +296,25 @@ const { progetto, precedente, prossimo } = Astro.props;
     margin-inline: auto;
   }
 
-  /* ---------- GALLERIE ---------- */
-  .galleria {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;   /* una sola immagine resta centrata */
-    align-items: center;
-    gap: 40px;
+  /* ---------- PANNELLI: regole di base ----------
+     Sotto i 901px non c'è nessuna coreografia: i pannelli sono
+     blocchi normali, uno sotto l'altro. La sequenza a schermi
+     impilati vive tutta nel media query in fondo al file. */
+  .pannello--immagine {
+    margin-top: 56px;
+    padding-inline: var(--margine-lato);
+  }
+
+  .pannello--immagine img {
+    display: block;
     width: 100%;
-    margin-top: 90px;
-  }
-
-  .galleria img {
     height: auto;
-    min-width: 0;
     background: var(--c-etichetta);   /* colore di attesa al posto del testo */
-  }
-
-  /* due affiancate riempiono la riga; da sola si ferma a metà
-     larghezza e resta al centro */
-  .galleria--due img {
-    flex: 1 1 0;
-    max-width: calc(50% - 20px);
-  }
-
-  .galleria--telefoni { gap: 24px; }
-
-  .galleria--telefoni img {
-    flex: 0 1 24%;
-    max-width: 24%;
   }
 
   /* Riquadro vuoto, stesse proporzioni degli screen (650x347) */
   .segnaposto {
-    flex: 1 1 0;
-    max-width: calc(50% - 20px);
+    width: 100%;
     aspect-ratio: 650 / 347;
     display: grid;
     place-items: center;
@@ -478,14 +475,6 @@ const { progetto, precedente, prossimo } = Astro.props;
       max-width: 100%;
     }
 
-    /* gallerie a colonna singola */
-    .galleria--due img,
-    .segnaposto { max-width: 100%; flex-basis: 100%; }
-
-    .galleria--telefoni img { flex-basis: 46%; max-width: 46%; }
-
-    .galleria { gap: 24px; margin-top: 56px; }
-
     /* strumenti incolonnati */
     .strumenti { margin-top: 90px; }
 
@@ -517,8 +506,116 @@ const { progetto, precedente, prossimo } = Astro.props;
   }
 
   @media (max-width: 560px) {
-    .galleria--telefoni img { flex-basis: 70%; max-width: 70%; }
     .salto { flex-direction: column; align-items: center; gap: 44px; }
     .salto__link, .salto__link--destra { align-items: center; }
+  }
+
+  /* ================================================================
+     LA SEQUENZA A SCHERMI IMPILATI — solo da 901px in su.
+
+     Come funziona: i pannelli immagine sono "sticky" in alto, quindi
+     restano inchiodati mentre si scorre; il pannello successivo,
+     che ha uno sfondo pieno, sale e li copre. Da qui l'effetto di
+     una schermata che compare sopra la precedente.
+
+     I pannelli di testo NON sono sticky, di proposito: un testo
+     lungo supererebbe l'altezza dello schermo e, da inchiodato,
+     la parte in fondo diventerebbe irraggiungibile. Sono però
+     "relative", perché un elemento non posizionato finirebbe
+     sotto le immagini sticky invece che sopra.
+     ================================================================ */
+  @media (min-width: 901px) {
+    .caso { padding-top: 0; }
+
+    .sequenza { position: relative; }
+
+    /* sfondo pieno su tutti: senza, si vedrebbe in trasparenza
+       il pannello rimasto inchiodato sotto */
+    .pannello {
+      background: var(--c-sfondo);
+    }
+
+    .pannello--testo {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .pannello--testo > .contenitore { width: 100%; }
+
+    .pannello--immagine {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      margin-top: 0;
+      padding-inline: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* contain e non cover: queste sono schermate di siti, tagliarne
+       i bordi significherebbe tagliare contenuto. Per il taglio al
+       vivo basta cambiare contain in cover. */
+    .pannello--immagine img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: transparent;
+    }
+
+    .pannello--immagine .segnaposto {
+      width: min(70vw, 900px);
+      height: auto;
+    }
+
+    /* ---- prima schermata ---- */
+    .pannello--testata .testata { width: 100%; }
+
+    .pannello--testata .testata__intro {
+      padding-top: 40px;
+      padding-bottom: 0;
+      gap: 56px;
+    }
+
+    /* la mascotte non deve sporgere oltre lo schermo */
+    .pannello--testata .testata__eroe {
+      top: 50%;
+      transform: translateY(-40%);
+      width: auto;
+      max-width: 41%;
+      max-height: 62vh;
+    }
+
+    /* ---- criticità e soluzioni nella stessa schermata ---- */
+    .pannello--caso .blocco {
+      width: 100%;
+      margin-top: 0;
+      gap: 40px;
+    }
+
+    .pannello--caso .blocco + .blocco { margin-top: 5vh; }
+
+    /* Mascotte più piccole: qui devono starci due blocchi in una
+       schermata sola. La seconda riga non è ridondante: --largo porta
+       anche la classe .blocco__slot, quindi senza di essa la regola
+       qui sopra restringerebbe pure la colonna del testo. */
+    .pannello--caso .blocco :global(.blocco__slot) { flex: 0 0 15%; }
+    .pannello--caso .blocco :global(.blocco__slot--largo) { flex: 1 1 auto; min-width: 0; }
+
+    /* ---- conclusioni ---- */
+    .pannello--finale .blocco { margin-top: 0; }
+
+    /* ---- vetrina del logo ---- */
+    .pannello--immagine .vetrina {
+      margin-top: 0;
+      width: 100%;
+      max-height: 78vh;
+      padding-inline: var(--margine-lato);
+    }
+
+    .pannello--immagine .vetrina__sfondo { max-height: 78vh; }
   }
 </style>
