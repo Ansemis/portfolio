@@ -7,6 +7,14 @@ import { pezzi } from '../data/su-di-me.js';
 const TELA_W = 1440;
 const TELA_H = 1024;
 const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
+
+// Su telefono i pop-up non seguono piu' il singolo disegno: escono tutti
+// nello stesso punto, centrati sotto il collage, cosi' nessuno sborda dallo
+// schermo. Il pop-up vive dentro il ritaglio, quindi left/top sono percentuali
+// del RITAGLIO: qui converto "centro della tela" e "fondo della tela" in
+// quelle unita', una volta sola, in fase di build.
+const centroTela = (p) => `${(((TELA_W / 2 - p.x) / p.w) * 100).toFixed(3)}%`;
+const fondoTela = (p) => `${(((TELA_H - p.y) / p.h) * 100).toFixed(3)}%`;
 ---
 
 <section class="su-di-me" id="chi-sono">
@@ -40,6 +48,8 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
               --h: ${pc(p.h, TELA_H)};
               --rot: ${p.rot}deg;
               --z: ${p.z};
+              --px: ${centroTela(p)};
+              --py: ${fondoTela(p)};
             `}
           >
             <img src={p.immagine} alt={p.alt} loading="lazy" />
@@ -145,7 +155,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
        a misure scorrelate e i pezzi si stirerebbero. */
     aspect-ratio: 1440 / 1024;
 
-    transform: scale(var(--scala)) translateY(-6%);
+    transform: scale(var(--scala)) translateY(-15%);
   }
 
   /* ----- I ritagli ----- */
@@ -177,7 +187,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
   }
 
   .pezzo:has(.zona:hover),
-  .pezzo:focus-visible {
+  .pezzo:focus-within {
     transform: rotate(var(--rot)) translateY(-20px) scale(1.03);
     filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.25));
     z-index: 20;
@@ -209,7 +219,7 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
   }
 
   .pezzo:has(.zona:hover) .popup,
-  .pezzo:focus-visible .popup {
+  .pezzo:focus-within .popup {
     opacity: 1;
     visibility: visible;
   }
@@ -245,15 +255,23 @@ const pc = (v, base) => `${((v / base) * 100).toFixed(4)}%`;
       flex: 0 0 auto;
     }
 
+    .contenuto {
+      padding-bottom: 90px;
+    }
+
     .collage {
       height: auto;
       /* 1 = la tela occupa esattamente la larghezza dello schermo. */
       --scala: 1;
     }
 
-    /* il pop-up non deve uscire dallo schermo */
+    /* Posizione unica per tutti: centrati sotto il collage.
+       Seguire il singolo disegno, su uno schermo stretto, faceva
+       sporgere i pop-up dei disegni laterali oltre il bordo. */
     .popup {
-      width: min(74vw, calc(400px / var(--scala)));
+      left: var(--px);
+      top: var(--py);
+      width: min(88vw, 400px);
     }
   }
 </style>
