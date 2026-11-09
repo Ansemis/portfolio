@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Navbar from '../../components/Navbar.astro';
 import Etichetta from '../../components/Etichetta.astro';
+import Comparsa from '../../components/Comparsa.astro';
 import Footer from '../../components/Footer.astro';
 import { progetti } from '../../data/progetti.js';
 
@@ -41,15 +42,19 @@ const { progetto, precedente, prossimo } = Astro.props;
         />
 
         <div class="testata__intro">
-          <div class="voce">
-            <Etichetta testo="obiettivo" rotazione={-2} />
-            <p class="caso__testo">{progetto.obiettivo}</p>
-          </div>
+          <Comparsa direzione="sinistra">
+            <div class="voce">
+              <Etichetta testo="obiettivo" rotazione={-2} />
+              <p class="caso__testo">{progetto.obiettivo}</p>
+            </div>
+          </Comparsa>
 
-          <div class="voce">
-            <Etichetta testo="strategia" rotazione={2} />
-            <p class="caso__testo">{progetto.strategia}</p>
-          </div>
+          <Comparsa direzione="sinistra" ritardo={100}>
+            <div class="voce">
+              <Etichetta testo="strategia" rotazione={2} />
+              <p class="caso__testo">{progetto.strategia}</p>
+            </div>
+          </Comparsa>
         </div>
       </header>
 
@@ -71,22 +76,30 @@ const { progetto, precedente, prossimo } = Astro.props;
 
       <!-- ============ CRITICITÀ: Anselmo a sinistra, testo sopra a destra -->
       <section class="blocco blocco--criticita">
-        <img class="blocco__anselmo" src="/img/anselmo-criticita.webp"
-             alt="" width="400" height="500" loading="lazy" />
-        <div class="blocco__corpo">
-          <Etichetta testo="criticità" rotazione={-3} />
-          <p class="caso__testo">{progetto.criticita}</p>
-        </div>
+        <Comparsa direzione="sinistra" class="blocco__slot">
+          <img class="blocco__anselmo" src="/img/anselmo-criticita.webp"
+               alt="" width="400" height="500" loading="lazy" />
+        </Comparsa>
+        <Comparsa direzione="destra" ritardo={90} class="blocco__slot blocco__slot--largo">
+          <div class="blocco__corpo">
+            <Etichetta testo="criticità" rotazione={-3} />
+            <p class="caso__testo">{progetto.criticita}</p>
+          </div>
+        </Comparsa>
       </section>
 
       <!-- ============ SOLUZIONI: testo a sinistra, Anselmo a destra ====== -->
       <section class="blocco blocco--soluzioni">
-        <img class="blocco__anselmo" src="/img/anselmo-positivita.webp"
-             alt="" width="400" height="500" loading="lazy" />
-        <div class="blocco__corpo">
-          <Etichetta testo="soluzioni" rotazione={2} />
-          <p class="caso__testo">{progetto.soluzioni}</p>
-        </div>
+        <Comparsa direzione="destra" class="blocco__slot">
+          <img class="blocco__anselmo" src="/img/anselmo-positivita.webp"
+               alt="" width="400" height="500" loading="lazy" />
+        </Comparsa>
+        <Comparsa direzione="sinistra" ritardo={90} class="blocco__slot blocco__slot--largo">
+          <div class="blocco__corpo">
+            <Etichetta testo="soluzioni" rotazione={2} />
+            <p class="caso__testo">{progetto.soluzioni}</p>
+          </div>
+        </Comparsa>
       </section>
 
       {progetto.dettagli.length > 0 && (
@@ -115,10 +128,12 @@ const { progetto, precedente, prossimo } = Astro.props;
 
       <!-- ============ CONCLUSIONI: solo testo, rientrato ================= -->
       <section class="blocco blocco--conclusioni">
-        <div class="blocco__corpo">
-          <Etichetta testo="conclusioni" rotazione={-2} />
-          <p class="caso__testo">{progetto.conclusioni}</p>
-        </div>
+        <Comparsa direzione="basso" class="blocco__slot blocco__slot--largo">
+          <div class="blocco__corpo">
+            <Etichetta testo="conclusioni" rotazione={-2} />
+            <p class="caso__testo">{progetto.conclusioni}</p>
+          </div>
+        </Comparsa>
       </section>
 
       <!-- ============ STRUMENTI: Anselmo col pennello + loghi =========== -->
@@ -232,9 +247,17 @@ const { progetto, precedente, prossimo } = Astro.props;
     margin-top: 140px;
   }
 
+  /* Le Comparsa avvolgono immagine e testo: sono loro, ora, i figli
+     diretti del blocco flex, quindi portano le proporzioni.
+     Servono :global() perché quei contenitori appartengono al
+     componente Comparsa, e gli stili di Astro sono isolati per
+     componente: senza, la regola non li raggiungerebbe. Resta
+     comunque circoscritta ai .blocco di questa pagina. */
+  .blocco :global(.blocco__slot) { flex: 0 0 26%; }
+  .blocco :global(.blocco__slot--largo) { flex: 1 1 auto; min-width: 0; }
+
   .blocco__anselmo {
-    flex: 0 0 26%;
-    width: 26%;
+    width: 100%;
     height: auto;
   }
 
@@ -442,8 +465,10 @@ const { progetto, precedente, prossimo } = Astro.props;
       margin-top: 80px;
     }
 
-    .blocco__anselmo {
-      flex: 0 0 auto;
+    .blocco :global(.blocco__slot),
+    .blocco :global(.blocco__slot--largo) { flex: 0 0 auto; width: 100%; }
+
+    .blocco :global(.blocco__slot:has(.blocco__anselmo)) {
       width: min(58vw, 300px);
       align-self: center;
     }

@@ -4,7 +4,14 @@
 import '../styles/global.css';
 import NavbarFlottante from '../components/NavbarFlottante.astro';
 
-const { titolo, descrizione = 'Andrea Messina, web designer. La tua attività merita di essere notata.' } = Astro.props;
+const {
+  titolo,
+  descrizione = 'Andrea Messina, web designer. La tua attività merita di essere notata.',
+} = Astro.props;
+
+// Indirizzi assoluti: i social non accettano percorsi relativi.
+const canonico = new URL(Astro.url.pathname, Astro.site).href;
+const anteprima = new URL('/og-anteprima.jpg', Astro.site).href;
 ---
 
 <!doctype html>
@@ -14,7 +21,29 @@ const { titolo, descrizione = 'Andrea Messina, web designer. La tua attività me
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titolo}</title>
     <meta name="description" content={descrizione} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonico} />
+
+    <!-- Icone: PNG leggeri al posto dell'SVG da 273 KB -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Anteprima quando il link viene condiviso -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Andrea Messina" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:title" content={titolo} />
+    <meta property="og:description" content={descrizione} />
+    <meta property="og:url" content={canonico} />
+    <meta property="og:image" content={anteprima} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Andrea Messina, web designer" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titolo} />
+    <meta name="twitter:description" content={descrizione} />
+    <meta name="twitter:image" content={anteprima} />
 
     <!-- Font da Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

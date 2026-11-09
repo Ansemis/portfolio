@@ -1,14 +1,18 @@
 ---
 import { progetti } from '../data/progetti.js';
+import Comparsa from './Comparsa.astro';
 ---
 
 <section class="progetti" id="progetti">
   <div class="contenitore">
-    <h2 class="titolo-sezione">progetti</h2>
+    <Comparsa direzione="destra">
+      <h2 class="titolo-sezione">progetti</h2>
+    </Comparsa>
 
     <div class="progetti__elenco">
-      {progetti.map((p) => (
-        <article class="card">
+      {progetti.map((p, i) => (
+        <Comparsa direzione="basso" ritardo={(i % 2) * 90}>
+        <article class:list={['card', i % 2 === 1 && 'card--invertita']}>
           <div class="card__cornice">
             <img src={p.immagine} alt={p.alt} width="307" height="377" loading="lazy" />
           </div>
@@ -19,6 +23,7 @@ import { progetti } from '../data/progetti.js';
             <a class="btn-primario" href={`/progetti/${p.slug}`}>scopri</a>
           </div>
         </article>
+        </Comparsa>
       ))}
     </div>
   </div>
@@ -53,9 +58,11 @@ import { progetti } from '../data/progetti.js';
 
   /* In flex ogni figlio conserva la propria larghezza, quindi
      row-reverse inverte l'ordine senza alterare le dimensioni. */
-  .card:nth-child(even) {
-    flex-direction: row-reverse;
-  }
+  /* L'alternanza è dichiarata dalla card stessa con una classe.
+     Non uso :nth-child perché le card sono avvolte dalle Comparsa,
+     che appartengono a un altro componente: gli stili di Astro sono
+     isolati per componente e non le raggiungerebbero. */
+  .card--invertita { flex-direction: row-reverse; }
 
   /* La colonna di testo: larghezza fissa, non si restringe
      né si allarga in base alla posizione. */
@@ -91,7 +98,9 @@ import { progetti } from '../data/progetti.js';
   /* Anselmo guarda sempre verso il testo.
      Le immagini originali guardano a sinistra, quindi vanno bene
      sulle card invertite (testo a sinistra). Sulle altre le specchio. */
-  .card:nth-child(odd) .card__cornice img {
+  /* Anselmo guarda sempre verso il testo: specchiato quando
+     l'immagine sta a sinistra. */
+  .card:not(.card--invertita) .card__cornice img {
     transform: scaleX(-1);
   }
 
@@ -134,7 +143,7 @@ import { progetti } from '../data/progetti.js';
   @media (max-width: 820px) {
     /* immagine sopra, testo sotto, su tutte le card */
     .card,
-    .card:nth-child(even) {
+    .card--invertita {
       flex-direction: column;
       align-items: center;
       gap: 24px;
@@ -153,7 +162,7 @@ import { progetti } from '../data/progetti.js';
     }
 
     /* niente specchiature: a colonna singola Anselmo guarda avanti */
-    .card:nth-child(odd) .card__cornice img { transform: none; }
+    .card:not(.card--invertita) .card__cornice img { transform: none; }
 
     .progetti__elenco { gap: 64px; }
     .titolo-sezione { margin-bottom: 44px; }

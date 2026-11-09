@@ -1,0 +1,19 @@
+# Impostazioni di pubblicazione, fissate nel progetto invece che
+# nel pannello Netlify: così il deploy non dipende da cosa è
+# configurato nell'interfaccia web.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # package.json richiede Node >= 22.23.4: lo dichiaro anche qui,
+  # altrimenti Netlify userebbe la sua versione predefinita.
+  NODE_VERSION = "22"
+
+# Gli asset col nome invariato possono essere tenuti in cache a lungo
+# dal browser; l'HTML no, altrimenti le modifiche non si vedrebbero.
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"

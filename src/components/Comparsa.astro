@@ -40,6 +40,14 @@ const {
     transform: none;
   }
 
+  /* Su schermo stretto le entrate laterali diventano verticali:
+     un elemento a tutta larghezza spostato di 80px di lato sporge
+     oltre il bordo e crea scorrimento orizzontale finché non entra. */
+  @media (max-width: 900px) {
+    .comparsa--sinistra,
+    .comparsa--destra { transform: translateY(50px); }
+  }
+
   /* Chi ha chiesto meno animazioni al sistema operativo
      vede tutto subito, senza movimento. */
   @media (prefers-reduced-motion: reduce) {
