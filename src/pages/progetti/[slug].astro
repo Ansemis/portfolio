@@ -384,9 +384,16 @@ const { progetto, precedente, prossimo } = Astro.props;
     gap: 26px;
   }
 
+  /* I loghi arrivano ritagliati stretti e con proporzioni molto diverse:
+     due sono icone quadrate, gli altri quattro sono marchi con il nome
+     scritto. Pareggiarli in altezza farebbe dominare i più lunghi, quindi
+     limito anche la larghezza: così un marchio lungo si abbassa da solo e
+     il peso visivo resta simile. */
   .strumenti__elenco img {
-    height: 50px;
+    height: auto;
     width: auto;
+    max-height: 50px;
+    max-width: 200px;
   }
 
   .strumenti__nome {
@@ -489,7 +496,7 @@ const { progetto, precedente, prossimo } = Astro.props;
 
     .strumenti__elenco { align-items: center; }
 
-    .strumenti__elenco img { height: 38px; }
+    .strumenti__elenco img { max-height: 38px; max-width: 150px; }
 
     /* vetrina del logo */
     .vetrina {

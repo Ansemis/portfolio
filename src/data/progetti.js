@@ -98,7 +98,7 @@ export const progetti = [
 
     strumenti: [
       { nome: `Illustrator`, logo: `/img/logo-illustrator.webp` },
-      { nome: `Procreate`,   logo: `/img/logo-procreate.png` },
+      { nome: `Procreate`,   logo: `/img/logo-procreate.webp` },
     ],
   },
 
