@@ -8,10 +8,14 @@ import Navbar from "./Navbar.astro";
 
     <div class="hero__griglia">
       <div class="hero__testo">
-        <h1 class="titolone">Andrea Messina</h1>
-        <h1 class="titolone">Web designer</h1>
+        <!-- Un solo h1: prima erano due, e una pagina con due titoli di
+             primo livello non ha una gerarchia leggibile. -->
+        <h1 class="titolone">
+          Andrea Messina<br />
+          <span class="titolone__mestiere">Web designer</span>
+        </h1>
 
-        <p class="hero__claim">La tua attività merita<br />di essere notata.</p>
+        <p class="hero__claim">Distinguiti e fatti notare</p>
 
         <a class="btn-contorno" href="/lavoriamo"
           >progettiamo<br />il tuo sito</a
@@ -57,6 +61,12 @@ import Navbar from "./Navbar.astro";
 
   .hero__testo .titolone {
     white-space: nowrap;
+  }
+
+  /* em e non px: cresce insieme al titolo, che è fluido */
+  .titolone__mestiere {
+    display: inline-block;
+    font-size: 1.2em;
   }
 
   .hero__claim {
