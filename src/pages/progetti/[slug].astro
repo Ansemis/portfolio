@@ -35,6 +35,8 @@ const { progetto, precedente, prossimo } = Astro.props;
       <!-- 1 — prima schermata: titolo, mascotte, obiettivo, strategia -->
       <section class="pannello pannello--testo pannello--testata">
         <div class="contenitore">
+          <Navbar />
+
           <header class="testata">
             <h1 class="caso__titolo">{progetto.titolo}</h1>
 
@@ -572,7 +574,21 @@ const { progetto, precedente, prossimo } = Astro.props;
     }
 
     /* ---- prima schermata ---- */
-    .pannello--testata .testata { width: 100%; }
+    /* La navbar resta in cima alla schermata; titolo, mascotte e testi
+       si centrano nello spazio che avanza. Senza stretch il contenitore
+       si centrerebbe in blocco e la navbar scenderebbe con lui. */
+    .pannello--testata { align-items: stretch; }
+
+    .pannello--testata > .contenitore {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+
+    .pannello--testata .testata {
+      width: 100%;
+      margin-block: auto;
+    }
 
     .pannello--testata .testata__intro {
       padding-top: 40px;
