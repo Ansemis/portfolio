@@ -11,10 +11,9 @@ export const contatti = {
   sede: `Sassari, Sardegna`,
   copyright: `Andrea Messina, tutti i diritti riservati`,
 
-  // Quando l'informativa sarà pronta su iubenda, incolla qui il suo
-  // indirizzo: la voce nel footer diventa un link da sola. Finchè url
-  // resta vuoto, compare come testo spento e non cliccabile.
-  privacy: { etichetta: `Privacy`, url: `` },
+  // Informativa generata su iubenda. Se un domani cambia, basta
+  // sostituire l'indirizzo qui: footer e form si aggiornano da soli.
+  privacy: { etichetta: `Privacy`, url: `https://www.iubenda.com/privacy-policy/86359395` },
 
   // Le pagine elencate nella colonna "Naviga" del footer.
   pagine: [
