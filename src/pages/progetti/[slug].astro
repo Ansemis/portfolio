@@ -53,14 +53,14 @@ const { progetto, precedente, prossimo } = Astro.props;
             <div class="testata__intro">
               <Comparsa direzione="sinistra">
                 <div class="voce">
-                  <Etichetta testo="obiettivo" rotazione={-2} />
+                  <Etichetta come="h2" testo="obiettivo" rotazione={-2} />
                   <p class="caso__testo">{progetto.obiettivo}</p>
                 </div>
               </Comparsa>
 
               <Comparsa direzione="sinistra" ritardo={100}>
                 <div class="voce">
-                  <Etichetta testo="strategia" rotazione={2} />
+                  <Etichetta come="h2" testo="strategia" rotazione={2} />
                   <p class="caso__testo">{progetto.strategia}</p>
                 </div>
               </Comparsa>
@@ -90,7 +90,7 @@ const { progetto, precedente, prossimo } = Astro.props;
             </Comparsa>
             <Comparsa direzione="destra" ritardo={90} class="blocco__slot blocco__slot--largo">
               <div class="blocco__corpo">
-                <Etichetta testo="criticità" rotazione={-3} />
+                <Etichetta come="h2" testo="criticità" rotazione={-3} />
                 <p class="caso__testo">{progetto.criticita}</p>
               </div>
             </Comparsa>
@@ -103,7 +103,7 @@ const { progetto, precedente, prossimo } = Astro.props;
             </Comparsa>
             <Comparsa direzione="sinistra" ritardo={90} class="blocco__slot blocco__slot--largo">
               <div class="blocco__corpo">
-                <Etichetta testo="soluzioni" rotazione={2} />
+                <Etichetta come="h2" testo="soluzioni" rotazione={2} />
                 <p class="caso__testo">{progetto.soluzioni}</p>
               </div>
             </Comparsa>
@@ -143,7 +143,7 @@ const { progetto, precedente, prossimo } = Astro.props;
           <section class="blocco blocco--conclusioni">
             <Comparsa direzione="basso" class="blocco__slot blocco__slot--largo">
               <div class="blocco__corpo">
-                <Etichetta testo="conclusioni" rotazione={-2} />
+                <Etichetta come="h2" testo="conclusioni" rotazione={-2} />
                 <p class="caso__testo">{progetto.conclusioni}</p>
               </div>
             </Comparsa>
@@ -171,18 +171,20 @@ const { progetto, precedente, prossimo } = Astro.props;
         </div>
 
         <div class="strumenti__etichetta">
-          <Etichetta testo="strumenti utilizzati" rotazione={-2} />
+          <Etichetta come="h2" testo="strumenti utilizzati" rotazione={-2} />
         </div>
       </section>
 
       <!-- ============ PRECEDENTE / PROSSIMO ============================= -->
       <nav class="salto">
-        <a class="salto__link" href={`/progetti/${precedente.slug}`}>
+        <a class="salto__link" href={`/progetti/${precedente.slug}`}
+           aria-label={`Progetto precedente: ${precedente.titolo}`}>
           <img src="/img/anselmo-freccia.webp" alt="" width="199" height="250" loading="lazy" />
           <Etichetta testo="progetto precedente" rotazione={-2} />
         </a>
 
-        <a class="salto__link salto__link--destra" href={`/progetti/${prossimo.slug}`}>
+        <a class="salto__link salto__link--destra" href={`/progetti/${prossimo.slug}`}
+           aria-label={`Prossimo progetto: ${prossimo.titolo}`}>
           <img src="/img/anselmo-freccia.webp" alt="" width="199" height="250" loading="lazy" />
           <Etichetta testo="prossimo progetto" rotazione={2} />
         </a>

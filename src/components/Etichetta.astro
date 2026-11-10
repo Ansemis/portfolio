@@ -1,9 +1,16 @@
 ---
 // L'etichetta inclinata che apre ogni sezione (OBIETTIVO, STRATEGIA, ...)
-const { testo, rotazione = -2 } = Astro.props;
+//
+// come: che elemento diventa. Di base è uno <span>, cioè solo grafica.
+// Passando come="h2" diventa un'intestazione vera: serve dove l'etichetta
+// apre una sezione, perché chi naviga con un lettore di schermo salta da
+// un titolo all'altro e senza intestazioni non troverebbe nulla.
+// Dentro un link resta <span>: un titolo dentro un collegamento confonde.
+const { testo, rotazione = -2, come = 'span' } = Astro.props;
+const Tag = come;
 ---
 
-<span class="etichetta" style={`--rot: ${rotazione}deg;`}>{testo}</span>
+<Tag class="etichetta" style={`--rot: ${rotazione}deg;`}>{testo}</Tag>
 
 <style>
   .etichetta {
@@ -12,6 +19,7 @@ const { testo, rotazione = -2 } = Astro.props;
     background: var(--c-etichetta);
     font-family: var(--f-accent);
     font-size: var(--t-etichetta);
+    font-weight: 400;   /* come h2 nascerebbe in grassetto */
     line-height: 1;
     color: var(--c-terracotta);
     text-transform: uppercase;
