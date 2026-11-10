@@ -71,7 +71,10 @@ import Navbar from "./Navbar.astro";
 
   .hero__claim {
     font-family: var(--f-accent);
-    font-size: var(--t-sottotitolo);
+    /* Corpo proprio, più piccolo del sottotitolo condiviso: accanto
+       ad Anselmo restano 657px, e a 36px la prima metà della frase ne
+       chiedeva 797, quindi andava a capo in mezzo a "della tua". */
+    font-size: clamp(18px, 0.7rem + 1.2vw, 27px);
     line-height: 1.2;
     color: var(--c-terracotta);
     margin-top: 48px;
