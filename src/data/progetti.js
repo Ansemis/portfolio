@@ -14,10 +14,6 @@
 //  I testi stanno fra backtick ` (AltGr + ‘ su tastiera italiana),
 //  non fra apici: così puoi scrivere liberamente l'apostrofo.
 //  Ogni testo sta su una riga sola: non spezzarlo con il +.
-//
-//  NOTA: il campo "telefoni" al momento non viene mostrato — le
-//  immagini con la cornice dello smartphone sono state tolte dalla
-//  pagina. I file restano qui, pronti se le rimettiamo.
 
 export const progetti = [
   {
@@ -48,7 +44,6 @@ export const progetti = [
 
     // Gallerie: aggiungi i file man mano che li esporti da Figma.
     schermate: [`/img/luce-home.webp`, `/img/luce-prodotto.webp`],
-    telefoni:  [`/img/luce-mobile-shop.webp`, `/img/luce-mobile-faq.webp`],
     dettagli:  [`/img/luce-catalogo.webp`, `/img/luce-make.webp`],
 
     strumenti: [
@@ -85,7 +80,6 @@ export const progetti = [
       `La cliente ed io siamo soddisfatti. È stato un lavoro più impegnativo del previsto, e sono convinto che lo sforzo fatto abbia ripagato in qualità.`,
 
     schermate: [`/img/sx-studi-forme.webp`, `/img/sx-studi-lettering.webp`],
-    telefoni:  [],
     dettagli:  [],
 
     // la vetrina del logo, come nel Figma: simbolo su sfondo a sinistra,
@@ -128,7 +122,6 @@ export const progetti = [
       `Autonomia, costi ridotti e semplicità di aggiornamento. I requisiti sono stati soddisfatti. Il design è intuitivo e minimale, sicuramente non all’avanguardia.`,
 
     schermate: [`/img/caats-home.webp`, `/img/caats-rassegne.webp`],
-    telefoni:  [],
     dettagli:  [`/img/caats-calendario.webp`],
 
     strumenti: [
