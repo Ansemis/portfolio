@@ -42,8 +42,14 @@ import { contatti } from '../data/contatti.js';
 
         <li>
           {contatti.linkedin.url
-            ? <a href={contatti.linkedin.url} target="_blank" rel="noopener noreferrer">{contatti.linkedin.etichetta}</a>
-            : <span>{contatti.linkedin.etichetta}</span>}
+            ? <a href={contatti.linkedin.url} target="_blank" rel="noopener noreferrer">
+                <img src="/img/icona-linkedin.webp" alt="" width="104" height="96" loading="lazy" />
+                {contatti.linkedin.etichetta}
+              </a>
+            : <span>
+                <img src="/img/icona-linkedin.webp" alt="" width="104" height="96" loading="lazy" />
+                {contatti.linkedin.etichetta}
+              </span>}
         </li>
         </ul>
 
@@ -60,11 +66,16 @@ import { contatti } from '../data/contatti.js';
 <style>
   .footer {
     padding-block: 50px 40px;
-    height: 50vh;
+    /* min-height e non height: su schermi bassi il contenuto può
+       crescere invece di uscire dal riquadro */
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
     background-color: #F1D8B9;
   }
 
   .footer__griglia {
+    flex: 1 1 auto;
     display: grid;
     /* La colonna dei contatti è elastica e spinge il bottone a destra.
        P.IVA non ha più una colonna sua: sta dentro il blocco contatti,
@@ -74,6 +85,9 @@ import { contatti } from '../data/contatti.js';
     grid-template-areas:
       'mascotte contatti cta'
       'copy     copy     cta';
+    /* la seconda riga si prende lo spazio che avanza: il copyright,
+       ancorato in fondo, scende così a filo del footer */
+    grid-template-rows: auto 1fr;
     column-gap: 48px;
     row-gap: 60px;
     align-items: start;
@@ -131,9 +145,12 @@ import { contatti } from '../data/contatti.js';
 
   .footer__voci a:hover { text-decoration: underline; }
 
-  .footer__voci svg {
-    width: 22px;
+  /* Stessa altezza per tutte e tre, larghezza libera: fissare
+     entrambe schiaccerebbe le icone con proporzioni diverse. */
+  .footer__voci svg,
+  .footer__voci img {
     height: 18px;
+    width: auto;
     flex-shrink: 0;
   }
 
@@ -162,8 +179,10 @@ import { contatti } from '../data/contatti.js';
 
   .footer__copyright {
     grid-area: copy;
+    align-self: end;        /* a filo del fondo del footer */
+    margin-top: 40px;
     font-family: var(--f-minuto);
-    font-size: var(--t-corpo);
+    font-size: 12px;
     color: var(--c-nero);
   }
 
@@ -175,6 +194,7 @@ import { contatti } from '../data/contatti.js';
         'mascotte contatti'
         'cta      cta'
         'copy     copy';
+      grid-template-rows: auto auto 1fr;
       row-gap: 40px;
     }
 
@@ -190,6 +210,7 @@ import { contatti } from '../data/contatti.js';
         'contatti'
         'cta'
         'copy';
+      grid-template-rows: auto auto auto 1fr;
       row-gap: 28px;
       column-gap: 0;
     }
