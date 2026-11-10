@@ -69,11 +69,13 @@ const { progetto, precedente, prossimo } = Astro.props;
         </div>
       </section>
 
-      <!-- 2 — le schermate, una per pannello -->
+      <!-- 2 — le schermate, una per pannello. Ogni voce è { src, alt }:
+           l'alt sta nei dati perché descrive quella immagine, e senza
+           di esso chi non vede non ha accesso alle prove del lavoro. -->
       {progetto.schermate.map((v) => (
         <section class="pannello pannello--immagine">
-          {typeof v === 'string'
-            ? <img src={v} alt="" loading="lazy" decoding="async" />
+          {v.src
+            ? <img src={v.src} alt={v.alt} loading="lazy" decoding="async" />
             : <div class="segnaposto"><span>immagine in arrivo</span></div>}
         </section>
       ))}
@@ -112,8 +114,8 @@ const { progetto, precedente, prossimo } = Astro.props;
       <!-- 4 — i dettagli, una per pannello -->
       {progetto.dettagli.map((v) => (
         <section class="pannello pannello--immagine">
-          {typeof v === 'string'
-            ? <img src={v} alt="" loading="lazy" decoding="async" />
+          {v.src
+            ? <img src={v.src} alt={v.alt} loading="lazy" decoding="async" />
             : <div class="segnaposto"><span>immagine in arrivo</span></div>}
         </section>
       ))}

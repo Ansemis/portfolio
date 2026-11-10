@@ -45,8 +45,14 @@ Per quanto mi riguarda, lavorare alla costruzione di un e-commerce ha rafforzato
 Ho imparato a studiare meglio gli strumenti di lavoro prima di optare per loro come soluzione, per me e per i clienti.`,
 
     // Gallerie: aggiungi i file man mano che li esporti da Figma.
-    schermate: [`/img/luce-home.webp`, `/img/luce-prodotto.webp`],
-    dettagli:  [`/img/luce-catalogo.webp`, `/img/luce-make.webp`],
+    schermate: [
+      { src: `/img/luce-home.webp`, alt: `Home dell'e-commerce Luce: la sezione Top Seller con tre candele in vetrina, ognuna con prezzo e pulsante Scopri.` },
+      { src: `/img/luce-prodotto.webp`, alt: `Pagina prodotto di un bouquet: foto a sinistra, descrizione a destra e menu a tendina aperto per scegliere il colore del bouquet.` },
+    ],
+    dettagli: [
+      { src: `/img/luce-catalogo.webp`, alt: `Catalogo delle fragranze: schede circolari con foto e descrizione di Peonia, Ambra, Magnolia e altri profumi.` },
+      { src: `/img/luce-make.webp`, alt: `Lo scenario Make che collega Webflow a Fatture in Cloud: la catena di passaggi che genera la fattura a ogni ordine.` },
+    ],
 
     strumenti: [
       { nome: `Make`,      logo: `/img/logo-make.webp` },
@@ -81,8 +87,11 @@ Ho imparato a studiare meglio gli strumenti di lavoro prima di optare per loro c
     conclusioni:
       `Il risultato è una combinazione di elementi affini, in armonia tra loro ed allo stesso tempo ben distinguibili. I colori del tramonto e sfumature di mediterraneo fanno da collante per rendere questo logo unico, un viaggio che porta con sé fino agli odori della natura sarda. Ora la cliente ha un logo che la rappresenta, le conferisce il giusto prestigio e che è la solida base di un'identità visiva pronta a crescere.`,
 
-    schermate: [`/img/sx-studi-forme.webp`, `/img/sx-studi-lettering.webp`],
-    dettagli:  [],
+    schermate: [
+      { src: `/img/sx-studi-forme.webp`, alt: `Foglio di schizzi a penna: decine di studi di forma per il simbolo, tra spirali, onde e profili di una S.` },
+      { src: `/img/sx-studi-lettering.webp`, alt: `Foglio di schizzi a matita: prove di lettering per SardiniaXplore e studi della S inserita in un puntatore su mappa.` },
+    ],
+    dettagli: [],
 
     // la vetrina del logo, come nel Figma: simbolo su sfondo a sinistra,
     // simbolo e logotipo a destra
@@ -123,8 +132,13 @@ Ho imparato a studiare meglio gli strumenti di lavoro prima di optare per loro c
     conclusioni:
       `Un sistema che metterebbe in difficoltà chi non è pratico del codice diventa semplice ed intuitivo. Garantisce inoltre un prezzo relativamente ridotto e totale autonomia. Lato utente, il sito permette di non dover scorrere tra confusionari post nei social alla ricerca degli eventi.`,
 
-    schermate: [`/img/caats-home.webp`, `/img/caats-rassegne.webp`],
-    dettagli:  [`/img/caats-calendario.webp`],
+    schermate: [
+      { src: `/img/caats-home.webp`, alt: `Home del sito CAATS: una fotografia di concerto in controluce, con il nome dell'associazione sovrapposto in grande.` },
+      { src: `/img/caats-rassegne.webp`, alt: `Pagina delle rassegne: le schede di Il Rumore delle Pagine e AsinArt, ognuna con logo, fotografia e pulsante Scopri di più.` },
+    ],
+    dettagli: [
+      { src: `/img/caats-calendario.webp`, alt: `Calendario interattivo di agosto: i giorni con un evento portano un pallino rosso e il giorno scelto apre la locandina sulla destra.` },
+    ],
 
     strumenti: [
       { nome: `Webflow`, logo: `/img/logo-webflow.webp` },
