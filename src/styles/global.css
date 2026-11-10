@@ -1,4 +1,52 @@
 /* ============================================
+   I CARATTERI, serviti dal sito stesso.
+   Prima arrivavano da Google: ogni visitatore mandava il proprio
+   indirizzo IP a un server esterno e doveva aspettarne la risposta
+   prima di vedere il testo. Ora i file stanno in /font.
+   swap: il testo si legge subito col carattere di sistema e viene
+   sostituito appena il file è pronto, invece di restare invisibile.
+   ============================================ */
+@font-face {
+  font-family: 'Bungee Inline';
+  src: url('/font/bungee-inline-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bungee';
+  src: url('/font/bungee-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bungee Shade';
+  src: url('/font/bungee-shade-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/font/lato-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/font/lato-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
    VARIABILI — i valori del design Figma.
    Cambiando un valore qui, cambia in tutto il sito.
    ============================================ */
@@ -13,13 +61,14 @@
   --c-testo:         #303030;  /* corpo del testo */
   --c-etichetta:     #ede4e0;  /* sfondo delle etichette di sezione */
 
-  /* Font */
+  /* Font. I tre Bungee sono i caratteri da titolo; per il corpo ce
+     n'è uno solo, Lato. Prima erano tre (Inter, Source Sans 3, Lato)
+     usati in punti diversi: a occhio si notava appena, ma erano tre
+     disegni di lettera diversi nello stesso testo. */
   --f-display: 'Bungee Inline', sans-serif;  /* titoloni */
   --f-accent:  'Bungee', sans-serif;         /* sottotitoli, bottoni */
-  --f-body:    'Inter', sans-serif;          /* navbar */
-  --f-testo:   'Source Sans 3', sans-serif;  /* testi descrittivi */
   --f-shade:   'Bungee Shade', sans-serif;   /* titoli di sezione giganti */
-  --f-minuto:  'Lato', sans-serif;           /* contatti, note a piè di pagina */
+  --f-testo:   'Lato', sans-serif;           /* tutto il corpo del testo */
 
   /* Dimensioni testo — scala fluida.
      clamp(minimo, valore-che-cresce, massimo): il testo si adatta alla
@@ -62,7 +111,7 @@ body {
   margin: 0;
   background-color: var(--c-sfondo);
   color: var(--c-terracotta);
-  font-family: var(--f-body);
+  font-family: var(--f-testo);
   font-size: var(--t-corpo);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
