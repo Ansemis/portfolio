@@ -3,15 +3,44 @@
 // Ogni pagina lo usa e ci inserisce dentro il proprio contenuto.
 import '../styles/global.css';
 import NavbarFlottante from '../components/NavbarFlottante.astro';
+import Footer from '../components/Footer.astro';
+import { contatti } from '../data/contatti.js';
 
 const {
   titolo,
   descrizione = 'Andrea Messina, web designer a Sassari. Creo il racconto della tua identità, online e offline.',
+  // Pagine di servizio (grazie, 404): fuori dai motori di ricerca.
+  // Senza canonical, perche' non sono indirizzi che qualcuno deve trovare.
+  noindex = false,
+  // Anteprima social diversa da quella del sito: la usano i lavori,
+  // cosi' condividendo un progetto si vede il progetto.
+  immagine = '/og-anteprima.jpg',
+  immagineAlt = 'Andrea Messina, web designer',
 } = Astro.props;
 
 // Indirizzi assoluti: i social non accettano percorsi relativi.
 const canonico = new URL(Astro.url.pathname, Astro.site).href;
-const anteprima = new URL('/og-anteprima.jpg', Astro.site).href;
+const anteprima = new URL(immagine, Astro.site).href;
+
+// Dati strutturati, solo in home: e' la pagina che rappresenta la persona.
+const inHome = Astro.url.pathname === '/';
+const datiPersona = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Andrea Messina',
+  jobTitle: 'Web designer',
+  url: Astro.site?.href,
+  description: descrizione,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Sassari',
+    addressRegion: 'Sardegna',
+    addressCountry: 'IT',
+  },
+  areaServed: 'Italia',
+  knowsAbout: ['Web design', 'Siti ed e-commerce', 'Identità visiva', 'Restyling'],
+  sameAs: [contatti.instagram.url, contatti.linkedin.url],
+};
 ---
 
 <!doctype html>
@@ -21,7 +50,9 @@ const anteprima = new URL('/og-anteprima.jpg', Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titolo}</title>
     <meta name="description" content={descrizione} />
-    <link rel="canonical" href={canonico} />
+    {noindex
+      ? <meta name="robots" content="noindex, follow" />
+      : <link rel="canonical" href={canonico} />}
 
     <!-- Icone: PNG leggeri al posto dell'SVG da 273 KB -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -38,7 +69,7 @@ const anteprima = new URL('/og-anteprima.jpg', Astro.site).href;
     <meta property="og:image" content={anteprima} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Andrea Messina, web designer" />
+    <meta property="og:image:alt" content={immagineAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titolo} />
@@ -51,10 +82,18 @@ const anteprima = new URL('/og-anteprima.jpg', Astro.site).href;
          foglio di stile a nominarli. -->
     <link rel="preload" href="/font/bungee-inline-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/font/lato-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    {inHome && <script type="application/ld+json" set:html={JSON.stringify(datiPersona)} />}
   </head>
   <body>
+    <a class="salta-al-contenuto" href="#contenuto">Salta al contenuto</a>
     <NavbarFlottante />
-    <slot />
+    <main id="contenuto">
+      <slot />
+    </main>
+    <!-- Il footer sta qui e non dentro le pagine: e' identico su tutte,
+         e fuori da <main> si legge per quello che e'. -->
+    <Footer />
 
     <script>
       // Fa comparire gli elementi .comparsa quando entrano nello schermo.

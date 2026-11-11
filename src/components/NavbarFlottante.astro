@@ -6,7 +6,7 @@
 <div class="zona-richiamo" aria-hidden="true"></div>
 
 <div class="flottante" id="navbar-flottante">
-  <nav class="navbar">
+  <nav class="navbar" aria-label="Navigazione rapida">
     <a href="/" class="flottante__mascotte" aria-label="Torna alla home">
       <img src="/img/anselmo-hero.webp" alt="" width="500" height="500" />
     </a>
@@ -20,6 +20,10 @@
 </div>
 
 <style>
+  /* Forma e colori in .navbar (global.css). Qui solo la spaziatura
+     propria della pillola flottante, piu' stretta di quella in alto. */
+  .navbar { padding: 8px 12px; }
+
   /* Fascia invisibile in cima alla finestra: è qui che il mouse
      fa comparire la navbar. Alta il 10% dell'altezza della finestra. */
   .zona-richiamo {
@@ -48,25 +52,8 @@
     pointer-events: auto;
   }
 
-  .navbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border: 2px solid var(--c-nero);
-    border-radius: 8px;
-    box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.69);
-    background: var(--c-sfondo);
-  }
 
-  .navbar a {
-    font-family: var(--f-testo);
-    font-size: var(--t-corpo);
-    color: var(--c-nero);
-    white-space: nowrap;
-  }
 
-  .navbar a:hover { text-decoration: underline; }
 
   .flottante__mascotte {
     display: block;
@@ -80,13 +67,6 @@
     transform: scaleX(-1);
   }
 
-  .separatore {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--c-nero);
-    flex-shrink: 0;
-  }
 
   /* Su schermi touch non esiste l'hover: la navbar compare
      quando si scorre verso l'alto. Lo gestisce lo script. */
@@ -103,8 +83,6 @@
     .flottante__mascotte { display: none; }
     .flottante__mascotte + .separatore { display: none; }
     .navbar { padding: 6px 9px; gap: 6px; }
-    .navbar a { font-size: 14px; }
-    .separatore { width: 5px; height: 5px; }
   }
 </style>
 

@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar.astro';
 import { contatti } from '../data/contatti.js';
 import Comparsa from '../components/Comparsa.astro';
 import Servizi from '../components/Servizi.astro';
-import Footer from '../components/Footer.astro';
 
 // I tre passi del processo, nell'ordine in cui compaiono
 const passi = [
@@ -168,7 +167,6 @@ const passi = [
     </div>
   </article>
 
-  <Footer />
 </Base>
 
 <script>
@@ -348,7 +346,7 @@ const passi = [
     font-family: var(--f-testo);
     font-size: 18px;
     color: var(--c-testo);
-    background: #fff;
+    background: var(--c-campo);
     border: 2px solid var(--c-nero);
     border-radius: 0;
     transition: box-shadow 0.15s ease, border-color 0.15s ease;
@@ -357,7 +355,7 @@ const passi = [
   .campo textarea { resize: vertical; min-height: 150px; }
 
   .campo input::placeholder,
-  .campo textarea::placeholder { color: #9a9a9a; }
+  .campo textarea::placeholder { color: var(--c-segnaposto); }
 
   .campo input:focus,
   .campo select:focus,
@@ -371,7 +369,7 @@ const passi = [
   .form:invalid .campo input:user-invalid,
   .form:invalid .campo textarea:user-invalid,
   .form:invalid .campo select:user-invalid {
-    border-color: #c0392b;
+    border-color: var(--c-errore);
   }
 
   .consenso {
@@ -386,8 +384,9 @@ const passi = [
   }
 
   .consenso input {
-    width: 22px;
-    height: 22px;
+    /* 24px: era 22 e restava sotto la soglia minima di un bersaglio */
+    width: 24px;
+    height: 24px;
     margin-top: 2px;
     flex-shrink: 0;
     accent-color: var(--c-bordo);

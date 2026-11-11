@@ -3,7 +3,6 @@ import Base from '../../layouts/Base.astro';
 import Navbar from '../../components/Navbar.astro';
 import Etichetta from '../../components/Etichetta.astro';
 import Comparsa from '../../components/Comparsa.astro';
-import Footer from '../../components/Footer.astro';
 import { progetti } from '../../data/progetti.js';
 
 // Una pagina per ogni progetto dell'elenco in progetti.js
@@ -21,7 +20,12 @@ export function getStaticPaths() {
 const { progetto, precedente, prossimo } = Astro.props;
 ---
 
-<Base titolo={`${progetto.titolo} — Andrea Messina`} descrizione={progetto.descrizione}>
+<Base
+  titolo={progetto.titoloSeo ?? `${progetto.titolo} — Andrea Messina`}
+  descrizione={progetto.descrizione}
+  immagine={progetto.anteprima}
+  immagineAlt={progetto.anteprimaAlt}
+>
   <article class="caso">
     <!-- ============================================================
          La sequenza a schermi impilati (solo da 901px in su).
@@ -75,7 +79,11 @@ const { progetto, precedente, prossimo } = Astro.props;
       {progetto.schermate.map((v) => (
         <section class="pannello pannello--immagine">
           {v.src
-            ? <img src={v.src} alt={v.alt} loading="lazy" decoding="async" />
+            ? <img
+                src={v.src}
+                srcset={`${v.src.replace('.webp', '-1200.webp')} 1200w, ${v.src} 1900w`}
+                sizes="(max-width: 900px) 88vw, 100vw"
+                alt={v.alt} loading="lazy" decoding="async" />
             : <div class="segnaposto"><span>immagine in arrivo</span></div>}
         </section>
       ))}
@@ -115,7 +123,11 @@ const { progetto, precedente, prossimo } = Astro.props;
       {progetto.dettagli.map((v) => (
         <section class="pannello pannello--immagine">
           {v.src
-            ? <img src={v.src} alt={v.alt} loading="lazy" decoding="async" />
+            ? <img
+                src={v.src}
+                srcset={`${v.src.replace('.webp', '-1200.webp')} 1200w, ${v.src} 1900w`}
+                sizes="(max-width: 900px) 88vw, 100vw"
+                alt={v.alt} loading="lazy" decoding="async" />
             : <div class="segnaposto"><span>immagine in arrivo</span></div>}
         </section>
       ))}
@@ -176,7 +188,7 @@ const { progetto, precedente, prossimo } = Astro.props;
       </section>
 
       <!-- ============ PRECEDENTE / PROSSIMO ============================= -->
-      <nav class="salto">
+      <nav class="salto" aria-label="Altri progetti">
         <a class="salto__link" href={`/progetti/${precedente.slug}`}
            aria-label={`Progetto precedente: ${precedente.titolo}`}>
           <img src="/img/anselmo-freccia.webp" alt="" width="199" height="250" loading="lazy" />
@@ -192,7 +204,6 @@ const { progetto, precedente, prossimo } = Astro.props;
     </div>
   </article>
 
-  <Footer />
 </Base>
 
 <style>
@@ -549,6 +560,11 @@ const { progetto, precedente, prossimo } = Astro.props;
     }
 
     .pannello--testo {
+      /* Le entrate laterali partono da 80px di scostamento: con un
+         margine laterale del 6% la colonna larga sporge finche' la
+         finestra sta sotto i 1333px. clip taglia senza creare un
+         contenitore di scorrimento, quindi gli sticky non si rompono. */
+      overflow-x: clip;
       position: relative;
       min-height: 100vh;
       display: flex;

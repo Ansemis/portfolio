@@ -1,13 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
 ---
 
 <Base
   titolo="Messaggio ricevuto — Andrea Messina"
-  descrizione="Grazie per avermi scritto: ti rispondo entro 3 giorni lavorativi."
->
+  descrizione="Grazie per avermi scritto: ti rispondo entro 3 giorni lavorativi." noindex>
   <article class="grazie">
     <div class="contenitore">
       <Navbar />
@@ -44,7 +42,6 @@ import Footer from '../components/Footer.astro';
     </div>
   </article>
 
-  <Footer />
 </Base>
 
 <style>
@@ -88,21 +85,6 @@ import Footer from '../components/Footer.astro';
     gap: 20px;
     margin-top: 8px;
   }
-
-  .btn-contorno {
-    display: inline-block;
-    padding: 8px 12px;
-    font-family: var(--f-accent);
-    font-size: var(--t-bottone);
-    line-height: 1.2;
-    color: var(--c-terracotta);
-    background: var(--c-sfondo);
-    border: 1px solid var(--c-bordo);
-    filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
-    transition: transform 0.15s ease;
-  }
-
-  .btn-contorno:hover { transform: translate(-2px, 2px); }
 
   .grazie__anselmo {
     width: clamp(180px, 28vw, 340px);

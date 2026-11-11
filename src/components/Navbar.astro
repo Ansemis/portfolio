@@ -19,7 +19,7 @@ const voci = [
     />
   </a>
 
-  <nav class="navbar">
+  <nav class="navbar" aria-label="Navigazione principale">
     {voci.map((voce, i) => (
       <>
         {i > 0 && <span class="separatore" aria-hidden="true"></span>}
@@ -59,36 +59,9 @@ const voci = [
 
   .navbar__mascotte:hover img { transform: scaleX(-1) translateY(-4px); }
 
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: fit-content;
-    padding: 10px;
-    border: 2px solid var(--c-nero);
-    border-radius: 8px;
-    box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.69);
-    background: var(--c-sfondo);
-  }
 
-  .navbar a {
-    font-family: var(--f-testo);
-    font-size: var(--t-corpo);
-    color: var(--c-nero);
-    white-space: nowrap;
-  }
 
-  .navbar a:hover { text-decoration: underline; }
 
-  /* Il pallino separatore: disegnato in CSS, non serve un'immagine */
-  .separatore {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--c-nero);
-    flex-shrink: 0;
-  }
 
   /* ---------- Schermi stretti ---------- */
   @media (max-width: 700px) {
@@ -115,7 +88,5 @@ const voci = [
     .navbar-riga { gap: 8px; }
     .navbar__mascotte { width: 34px; }
     .navbar { padding: 7px 9px; gap: 7px; }
-    .navbar a { font-size: 14px; }
-    .separatore { width: 5px; height: 5px; }
   }
 </style>

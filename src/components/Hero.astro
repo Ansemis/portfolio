@@ -17,7 +17,7 @@ import Navbar from "./Navbar.astro";
 
         <p class="hero__claim">Creo il racconto della tua identità, online e offline.</p>
 
-        <a class="btn-contorno" href="/lavoriamo"
+        <a class="btn-contorno hero__azione" href="/lavoriamo"
           >progettiamo<br />il tuo sito</a
         >
       </div>
@@ -31,7 +31,6 @@ import Navbar from "./Navbar.astro";
           fetchpriority="high"
           decoding="async"
         />
-        <!-- <span class="hero__distinguiti">DISTINGUITI!</span> -->
       </div>
     </div>
   </div>
@@ -80,23 +79,11 @@ import Navbar from "./Navbar.astro";
     margin-top: 48px;
   }
 
-  /* Bottone con bordo e ombra piena, come nel design */
-  .btn-contorno {
-    display: inline-block;
+  /* Aspetto in .btn-contorno (global.css): qui solo la misura
+     che questo bottone ha nel design dell'hero. */
+  .hero__azione {
     margin-top: 48px;
     padding: 5px 8px;
-    font-family: var(--f-accent);
-    font-size: var(--t-bottone);
-    line-height: 1.2;
-    color: var(--c-terracotta);
-    background: var(--c-sfondo);
-    border: 1px solid var(--c-bordo);
-    filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
-    transition: transform 0.15s ease;
-  }
-
-  .btn-contorno:hover {
-    transform: translate(-2px, 2px);
   }
 
   .hero__immagine {
@@ -113,15 +100,6 @@ import Navbar from "./Navbar.astro";
     aspect-ratio: 500 / 500;
   }
 
-  .hero__distinguiti {
-    position: absolute;
-    left: -34%;
-    top: 50%;
-    font-family: var(--f-accent);
-    font-size: var(--t-titolo);
-    color: var(--c-giallo);
-    white-space: nowrap;
-  }
 
   /* ---------- Schermi stretti ---------- */
   @media (max-width: 860px) {
@@ -144,7 +122,7 @@ import Navbar from "./Navbar.astro";
     .hero__claim {
       margin-top: 28px;
     }
-    .btn-contorno {
+    .hero__azione {
       margin-top: 28px;
     }
 
@@ -158,12 +136,5 @@ import Navbar from "./Navbar.astro";
       width: min(78vw, 360px);
     }
 
-    /* "DISTINGUITI!" torna nel flusso, sotto la mascotte */
-    .hero__distinguiti {
-      position: static;
-      display: block;
-      margin-bottom: 8px;
-      text-align: center;
-    }
   }
 </style>

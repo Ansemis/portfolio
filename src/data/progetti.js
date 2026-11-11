@@ -18,6 +18,14 @@
 export const progetti = [
   {
     slug: `luce-candele-artigianali`,
+
+    // Titolo che compare nei risultati di ricerca e nelle anteprime.
+    // Diverso da `titolo`, che resta quello scritto sulla pagina.
+    // --> questo l'ho scritto io: cambialo con le tue parole.
+    titoloSeo: `Luce, e-commerce di candele artigianali — Andrea Messina`,
+    // Immagine che compare condividendo il link del progetto.
+    anteprima: `/img/og/og-luce.jpg`,
+    anteprimaAlt: `La home dell’e-commerce Luce, candele artigianali`,
     titolo: `Luce - candele artigianali`,
     descrizione:
       `E-commerce di candele artigianali basato in Sardegna: dalla vendita su Instagram alla propria piattaforma online.`,
@@ -64,6 +72,14 @@ Ho imparato a studiare meglio gli strumenti di lavoro prima di optare per loro c
 
   {
     slug: `sardiniaxplore`,
+
+    // Titolo che compare nei risultati di ricerca e nelle anteprime.
+    // Diverso da `titolo`, che resta quello scritto sulla pagina.
+    // --> questo l'ho scritto io: cambialo con le tue parole.
+    titoloSeo: `SardiniaXplore, logo e identità visiva — Andrea Messina`,
+    // Immagine che compare condividendo il link del progetto.
+    anteprima: `/img/og/og-sardiniaxplore.jpg`,
+    anteprimaAlt: `Studi di forma per il logo di SardiniaXplore`,
     titolo: `sardiniaxplore`,
     descrizione:
       `Logo design di un’attività emergente di escursionismo in Sardegna: palette colori, font e visual identity.`,
@@ -109,6 +125,14 @@ Ho imparato a studiare meglio gli strumenti di lavoro prima di optare per loro c
 
   {
     slug: `caats`,
+
+    // Titolo che compare nei risultati di ricerca e nelle anteprime.
+    // Diverso da `titolo`, che resta quello scritto sulla pagina.
+    // --> questo l'ho scritto io: cambialo con le tue parole.
+    titoloSeo: `CAATS, sito per un consorzio di artigiani — Andrea Messina`,
+    // Immagine che compare condividendo il link del progetto.
+    anteprima: `/img/og/og-caats.jpg`,
+    anteprimaAlt: `La home del sito del consorzio CAATS`,
     titolo: `caats`,
     descrizione:
       `Sito per il Consorzio Artisti Artigiani Turritani Sardi, associazione incredibilmente versatile che porta avanti la cultura nel territorio attraverso più forme d’arte.`,

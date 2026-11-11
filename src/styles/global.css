@@ -54,12 +54,16 @@
   /* Colori */
   --c-sfondo:        #f4f3f0;
   --c-terracotta:    #ac5621;  /* titoli e testo principale */
-  --c-giallo:        #f3a200;  /* accento */
   --c-bordo:         #a75f0d;  /* bordo bottoni */
   --c-ombra-bottone: #f1d8b9;  /* ombra chiara bottoni */
+  --c-ombra-pillola: rgba(0, 0, 0, 0.69);  /* ombra della navbar */
+  --c-ombra-popup:   rgba(0, 0, 0, 0.25);  /* ombra dei pop-up */
   --c-nero:          #000000;
   --c-testo:         #303030;  /* corpo del testo */
   --c-etichetta:     #ede4e0;  /* sfondo delle etichette di sezione */
+  --c-campo:         #ffffff;  /* fondo dei campi e delle schede */
+  --c-segnaposto:    #767676;  /* era #9a9a9a: contrasto 2,81, illeggibile */
+  --c-errore:        #8c2f22;  /* bordo di un campo sbagliato */
 
   /* Font. I tre Bungee sono i caratteri da titolo; per il corpo ce
      n'è uno solo, Lato. Prima erano tre (Inter, Source Sans 3, Lato)
@@ -78,8 +82,8 @@
      la misura del Figma. */
   --t-titolone:    clamp(34px, 1.2rem + 4.6vw, 82px);
   --t-titolo:      clamp(26px, 1rem + 2.4vw, 48px);
-  --t-sottotitolo: clamp(21px, 0.9rem + 1.7vw, 36px);
   --t-bottone:     clamp(15px, 0.8rem + 0.4vw, 20px);
+  --t-richiamo:    48px;  /* il bottone grande del footer */
   --t-corpo:       clamp(15px, 0.9rem + 0.1vw, 16px);
   --t-testo:       clamp(17px, 0.95rem + 0.6vw, 24px);
   --t-sezione:     clamp(37px, 1rem + 7.6vw, 128px);  /* PROGETTI, SU DI ME  */
@@ -131,6 +135,36 @@ a { color: inherit; text-decoration: none; }
 button, input, textarea, select { font: inherit; color: inherit; }
 
 /* ============================================
+   FUOCO DA TASTIERA
+   Chi naviga col Tab deve vedere dove si trova. Prima il sito
+   si affidava all'anello predefinito del browser, che sul nero e
+   sul terracotta si vede appena. :focus-visible riguarda solo la
+   tastiera: col mouse non compare niente.
+   ============================================ */
+:focus-visible {
+  outline: 3px solid var(--c-bordo);
+  outline-offset: 3px;
+}
+
+/* Primo elemento della pagina: salta la navigazione e porta al
+   contenuto. Resta fuori schermo finche' non riceve il fuoco. */
+.salta-al-contenuto {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 16px;
+  font-family: var(--f-testo);
+  background: var(--c-sfondo);
+  border: 2px solid var(--c-nero);
+}
+
+.salta-al-contenuto:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* ============================================
    CLASSI DI BASE
    ============================================ */
 
@@ -138,6 +172,75 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .contenitore {
   width: 100%;
   padding-inline: var(--margine-lato);
+}
+
+/* Bottone bordato: la ricetta sta qui una volta sola.
+   Prima era ripetuta in cinque file sotto tre nomi diversi
+   (.btn-contorno in Hero, grazie e 404, .servizi__invito,
+   .footer__cta) e i padding si erano gia' allontanati fra loro.
+   Ora chi ha una geometria sua la dichiara nel proprio file e
+   aggiunge questa classe accanto: l'aspetto resta identico, ma
+   colore, bordo e ombra si cambiano in un punto. */
+.btn-contorno {
+  display: inline-block;
+  padding: 8px 12px;
+  font-family: var(--f-accent);
+  font-size: var(--t-bottone);
+  line-height: 1.2;
+  color: var(--c-terracotta);
+  background: var(--c-sfondo);
+  border: 1px solid var(--c-bordo);
+  filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
+  transition: transform 0.15s ease;
+}
+
+.btn-contorno:hover { transform: translate(-2px, 2px); }
+
+/* Pillola della navbar: la ricetta sta qui una volta sola.
+   Prima era scritta per intero in Navbar.astro e in
+   NavbarFlottante.astro, una trentina di righe gemelle, e le due
+   si erano gia' allontanate. Ora ogni componente dichiara solo le
+   proprie spaziature. */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 2px solid var(--c-nero);
+  border-radius: 8px;
+  box-shadow: -1px 1px 0 var(--c-ombra-pillola);
+  background: var(--c-sfondo);
+}
+
+.navbar a {
+  /* min-height invece di padding: sul desktop il link e' gia' alto
+     24px e non cambia niente, sul telefono scendeva a 21 e qui
+     torna in soglia. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  font-family: var(--f-testo);
+  font-size: var(--t-corpo);
+  color: var(--c-nero);
+  white-space: nowrap;
+}
+
+.navbar a:hover { text-decoration: underline; }
+
+/* Il pallino separatore: disegnato in CSS, non serve un'immagine */
+.separatore {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-nero);
+  flex-shrink: 0;
+}
+
+@media (max-width: 430px) {
+  /* sotto i 430px le due pillole si stringono allo stesso modo:
+     prima lo faceva solo quella in alto */
+  .navbar a { font-size: 14px; }
+  .separatore { width: 5px; height: 5px; }
 }
 
 /* Titolone in Bungee Inline con ombra nera */

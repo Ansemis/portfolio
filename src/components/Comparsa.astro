@@ -31,9 +31,15 @@ const {
 
   .comparsa--basso     { transform: translateY(80px); }
   .comparsa--alto      { transform: translateY(-80px); }
-  .comparsa--sinistra  { transform: translateX(-80px); }
-  .comparsa--destra    { transform: translateX(80px); }
   .comparsa--dissolvenza { transform: none; }
+
+  /* Le entrate laterali non possono scostarsi piu' del margine del
+     sito, altrimenti un elemento a tutta larghezza sporge dal bordo
+     e la finestra prende una barra di scorrimento orizzontale finche'
+     l'animazione non finisce. Il margine e' il 6% della finestra:
+     5vw sta sempre dentro, e sopra i 1600px torna agli 80px pieni. */
+  .comparsa--sinistra  { transform: translateX(calc(-1 * min(80px, 5vw))); }
+  .comparsa--destra    { transform: translateX(min(80px, 5vw)); }
 
   .comparsa.visibile {
     opacity: 1;
@@ -41,11 +47,21 @@ const {
   }
 
   /* Su schermo stretto le entrate laterali diventano verticali:
-     un elemento a tutta larghezza spostato di 80px di lato sporge
-     oltre il bordo e crea scorrimento orizzontale finché non entra. */
+     di lato lo spazio non c'e' e il movimento si legge male. */
   @media (max-width: 900px) {
     .comparsa--sinistra,
     .comparsa--destra { transform: translateY(50px); }
+  }
+
+  /* Senza JavaScript la classe .visibile non arriva mai e il
+     contenuto resterebbe trasparente per sempre: su una pagina il
+     guasto peggiore possibile. Qui parte visibile, senza entrata. */
+  @media (scripting: none) {
+    .comparsa {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   /* Chi ha chiesto meno animazioni al sistema operativo

@@ -91,7 +91,7 @@ import { contatti } from '../data/contatti.js';
       </ul>
     </div>
 
-    <a class="footer__cta" href="/lavoriamo">progettiamo<br />il tuo sito</a>
+    <a class="btn-contorno footer__cta" href="/lavoriamo">progettiamo<br />il tuo sito</a>
 
     <p class="footer__copyright">{contatti.copyright}</p>
   </div>
@@ -105,7 +105,7 @@ import { contatti } from '../data/contatti.js';
     min-height: 50vh;
     display: flex;
     flex-direction: column;
-    background-color: #F1D8B9;
+    background-color: var(--c-ombra-bottone);
   }
 
   /* Mascotte, tre colonne di link, bottone. Il copyright sta su una
@@ -165,6 +165,9 @@ import { contatti } from '../data/contatti.js';
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    /* 24px e' la misura minima di un bersaglio da dito: queste voci
+       erano alte 23 e restavano un pixel sotto la soglia. */
+    min-height: 24px;
   }
 
   .footer__voci a:hover { text-decoration: underline; }
@@ -184,23 +187,15 @@ import { contatti } from '../data/contatti.js';
     flex-shrink: 0;
   }
 
-  /* Il bottone grande: stessa forma di quello dell'hero, corpo 48px */
+  /* Aspetto in .btn-contorno (global.css): qui la posizione nella
+     griglia e il corpo grande, che e' solo di questo bottone. */
   .footer__cta {
     grid-area: cta;
     justify-self: end;
     align-self: start;
     padding: 5px 8px;
-    font-family: var(--f-accent);
-    font-size: 48px;
-    line-height: 1.2;
-    color: var(--c-terracotta);
-    background: var(--c-sfondo);
-    border: 1px solid var(--c-bordo);
-    filter: drop-shadow(-7px 7px 0 var(--c-ombra-bottone));
-    transition: transform 0.15s ease;
+    font-size: var(--t-richiamo);
   }
-
-  .footer__cta:hover { transform: translate(-2px, 2px); }
 
   .footer__copyright {
     grid-area: copy;
@@ -228,7 +223,7 @@ import { contatti } from '../data/contatti.js';
 
     .footer__cta {
       justify-self: start;
-      font-size: clamp(26px, 4.4vw, 48px);
+      --t-richiamo: clamp(26px, 4.4vw, 48px);
     }
   }
 
